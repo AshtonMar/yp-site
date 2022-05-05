@@ -3,14 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Form Selection</title>
     <link rel="stylesheet" href="https://codepen.io/gymratpacks/pen/VKzBEp#0" />
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,300" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="./form-script/form-styling/login-register.css" />
-    <link rel="stylesheet" href="./form-script/form-styling/login.css" />
-    <link rel="stylesheet" href="./form-script/form-styling/registration.css" />
-    <link rel="stylesheet" href="../preloader/preloader.css" />
-    <script src="../preloader/preloader.js" defer></script>
+    <link rel="stylesheet" href="./forms/form-styling/login-register.css" />
+    <link rel="stylesheet" href="./forms/form-styling/login.css" />
+    <link rel="stylesheet" href="./forms/form-styling/new-user.css" />
+    <link rel="stylesheet" href="./preloader/preloader.css" />
+    <title>Form Selection</title>
+    <script src="./preloader/preloader.js" defer></script>
+    <script src="./forms/form-script/form.js" defer></script>
   </head>
   <body>
     <div id="preloader">
@@ -21,10 +22,9 @@
       </div>
     </div>
     <section id="sign-up-in-choice">
-      <button id="admin-form-btn" value="admin-user">Sign In</button>
-      <button id="user-registration-form-btn" value="new-user">Sign Up</button>
+      <button id="admin-form-btn" value="admin-form">Sign In</button>
+      <button id="new-user-form-btn" value="new-user-form">Sign Up</button>
     </section>
     <section id="form-section"></section>
-    <script src="./form-script/form.js"></script>
   </body>
 </html>

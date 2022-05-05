@@ -2,8 +2,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  overflow-x: hidden;
   font-family: sans-serif;
+  font-weight: 100;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -14,6 +16,7 @@ body {
   height: 100vh;
   width: 100%;
   background-size: cover;
+  background-blend-mode: overlay;
 }
 
 button {
@@ -28,12 +31,12 @@ button {
   width: 420px;
   border: none;
   border-bottom: 2px solid rgb(0, 0, 0, 0.5);
-  background-color: rgba(255, 255, 255, 0.5);
   transition: all 0.5s;
   transition-timing-function: ease-in-out;
 }
 
 input {
+  background-color: rgba(255, 255, 255, 0.2);
   font-size: 18px;
   color: white;
 }
@@ -43,13 +46,15 @@ input:focus {
   border-bottom: 2px solid white;
 }
 
-input:focus::placeholder {
-  color: white;
-}
-
 ::placeholder {
   font-size: 15px;
   color: rgb(0, 0, 0, 0.5);
+  transition: all 0.5s;
+  transition-timing-function: ease-in-out;
+}
+
+input:focus::placeholder {
+  color: white;
 }
 
 #form-section {

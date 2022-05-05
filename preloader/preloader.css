@@ -2,6 +2,19 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: sans-serif;
+  font-weight: 100;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+::selection {
+  color: #ff4500;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 /* Preloader CSS */
@@ -20,18 +33,6 @@
   transition: all 0.5s;
   transition-timing-function: ease-in-out;
 }
-
-/* .preloader-text {
-  padding: 20px;
-} */
-
-/* .text {
-  font-size: 45px;
-  color: white;
-  animation: fade ease-in-out 5s infinite;
-  transition: all 0.5s;
-  transition-timing-function: ease-in-out;
-} */
 
 @keyframes fade {
   0% {
@@ -100,3 +101,15 @@
   }
 }
 /*End of CSS of Section*/
+
+#footer {
+  display: flex;
+  align-items: center;
+  height: 5vh;
+  color: white;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
