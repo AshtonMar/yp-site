@@ -1,0 +1,12 @@
+/* Form */
+#admin-form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 420px;
+}
+
+#admin-submit-btn {
+  width: 420px;
+  margin-inline: 0px;
+}
