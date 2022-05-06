@@ -34,15 +34,15 @@ app = Flask(__name__)
 app.debug = True
 
 
-@app.route('/user_registration/', methods=["POST"])
-def user_registration():
+@app.route('/new_user/', methods=["POST"])
+def new_user():
     response = {}
 
     if request.method == "POST":
-        full_name = request.form['full_name']
-        user_image = request.form['user_image']
-        birth_date = request.form['birth_date']
-        phone_number = request.form['phone_number']
+        full_name = request.json['full_name']
+        user_image = request.json['user_image']
+        birth_date = request.json['birth_date']
+        phone_number = request.json['phone_number']
 
         with sqlite3.connect("yp.db") as conn:
             cursor = conn.cursor()
@@ -115,6 +115,19 @@ def find_user(user_id):
 
     return jsonify(response)
 
+
+@app.route('/certain_users/', methods=["GET"])
+def get_user():
+    response = {}
+    with sqlite3.connect("yp.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM user")
+
+        users = cursor.fetchall()
+
+    response['status_code'] = 200
+    response['data'] = users
+    return response
 
 if __name__ == '__main__':
     app.run()
