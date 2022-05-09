@@ -1,133 +1,91 @@
 import sqlite3
-from flask import Flask, request, jsonify
-
-def user_table():
-    conn = sqlite3.connect('yp.db')
-    print("Opened database successfully")
-
-    conn.execute("CREATE TABLE IF NOT EXISTS user(user_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                 "full_name TEXT NOT NULL,"
-                 "user_image VARCHAR,"
-                 "birth_date TEXT NOT NULL,"
-                 "phone_number INT(10))")
-    print("Table Created Successfully")
-    conn.close()
+from flask_cors import CORS
+from flask import Flask, request
 
 
-def fetch_users():
-    with sqlite3.connect('yp.db') as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM user")
-        users = cursor.fetchall()
+def create_yp_table():
+    with sqlite3.connect('yp.db') as connection:
+        cursor = connection.cursor()
+        cursor.execute('CREATE TABLE IF NOT EXISTS yp_users(yp_id INTEGER PRIMARY KEY AUTOINCREMENT,'
+                       'full_name TEXT NOT NULL,'
+                       'profile_image TEXT NOT NULL,'
+                       'phone_number TEXT NOT NULL,'
+                       'birthday TEXT NOT NULL)')
+        print('Table Created')
 
-        new_data = []
 
-        for data in users:
-            new_data.append(users(data[0], data[3], data[4]))
-    return new_data
+create_yp_table()
 
-user_table()
-users = fetch_users()
+
+def create_dict(cursor, row):
+    dictionary = {}
+    for index, column in enumerate(cursor.description):
+        dictionary[column[0]] = row[index]
+    return dictionary
 
 
 app = Flask(__name__)
 app.debug = True
+CORS(app)
 
 
-@app.route('/new_user/', methods=["POST"])
-def new_user():
+@app.route("/new_user/", methods=["POST"])
+def add_userinfo():
     response = {}
 
     if request.method == "POST":
         full_name = request.json['full_name']
-        user_image = request.json['user_image']
-        birth_date = request.json['birth_date']
+        profile_image = request.json['profile_image']
         phone_number = request.json['phone_number']
+        birthday = request.json['birthday']
 
-        with sqlite3.connect("yp.db") as conn:
-            cursor = conn.cursor()
-            cursor.execute("INSERT INTO user("
+        with sqlite3.connect("yp.db") as connection:
+            connection.row_factory = create_dict
+            cursor = connection.cursor()
+            cursor.execute("INSERT INTO yp_users("
                            "full_name,"
-                           "user_image,"
-                           "birth_date,"
-                           "phone_number) VALUES(?, ?, ?, ?)", (full_name, user_image, birth_date, phone_number))
-            conn.commit()
-            response["message"] = "success"
+                           "profile_image,"
+                           "phone_number,"
+                           "birthday) VALUES(?, ?, ?, ?)", (full_name, profile_image, phone_number, birthday))
+            connection.commit()
+
+            response["message"] = "Info Added"
             response["status_code"] = 201
-        return response
+            return response
 
 
-@app.route("/delete-user/<int:user_id>")
-def delete_post(user_id):
+@app.route('/view_profiles/')
+def view_profiles():
     response = {}
-    with sqlite3.connect("yp.db") as conn:
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM user WHERE id=" + str(user_id))
-        conn.commit()
+
+    with sqlite3.connect("yp.db") as connection:
+        connection.row_factory = create_dict
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM yp_users")
+        profile_info = cursor.fetchall()
+
         response['status_code'] = 200
-        response['message'] = "success"
+        response['yp_data'] = profile_info
+
     return response
 
 
-@app.route('/change_user_info/<int:user_id>/', methods=["PUT"])
-def change_user_info(user_id):
+@app.route('/delete_userinfo/<int:yp_id>/', methods=["POST"])
+def delete_post(yp_id):
     response = {}
 
-    if request.method == "PUT":
-        with sqlite3.connect('yp.db') as conn:
-            incoming_data = dict(request.json)
-            put_data = {}
+    with sqlite3.connect("yp.db") as connection:
+        connection.row_factory = create_dict
+        cursor = connection.cursor()
+        cursor.execute("DELETE FROM yp_users WHERE yp_id=" + str(yp_id))
+        connection.commit()
 
-            if incoming_data.get("full_name") is not None:
-                put_data["full_name"] = incoming_data.get("full_name")
-                
-                with sqlite3.connect('yp.db') as conn:
-                    cursor = conn.cursor()
-                    cursor.execute("UPDATE user SET full_name =? WHERE id=?", (put_data["full_name"], user_id))
-                    conn.commit()
-                    response['message'] = "Update was successfully"
-                    response['status_code'] = 200
-                    
-            if incoming_data.get("content") is not None:
-                put_data['content'] = incoming_data.get('content')
+        response['status_code'] = 200
+        response['message'] = "User Info Deleted Successfully."
 
-                with sqlite3.connect('yp.db') as conn:
-                    cursor = conn.cursor()
-                    cursor.execute("UPDATE post SET content =? WHERE id=?", (put_data["content"], user_id))
-                    conn.commit()
-
-                    response["content"] = "Content updated successfully"
-                    response["status_code"] = 200
     return response
 
-
-@app.route('/find_user/<int:user_id>/', methods=["GET"])
-def find_user(user_id):
-    response = {}
-
-    with sqlite3.connect("yp.db") as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM user WHERE id=" + str(user_id))
-
-        response["status_code"] = 200
-        response["description"] = "success"
-        response["data"] = cursor.fetchone()
-
-    return jsonify(response)
-
-
-@app.route('/certain_users/', methods=["GET"])
-def get_user():
-    response = {}
-    with sqlite3.connect("yp.db") as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM user")
-
-        users = cursor.fetchall()
-
-    response['status_code'] = 200
-    response['data'] = users
-    return response
 
 if __name__ == '__main__':
     app.run()
+    app.debug = True

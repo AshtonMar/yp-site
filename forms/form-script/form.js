@@ -25,7 +25,7 @@ function createForms(form) {
 `;
 
     let registrationForm = `
-  <form id="new-user-form" class="form" onsubmit="newUserInfo()">
+  <form id="new-user-form" action="#" class="form" onsubmit="newUserInfo()" >
     <input autocomplete="off" id="user-fullname" class="input" required type="text" placeholder="Full Name" />
     <input autocomplete="off" id="user-phone-number" class="input" required type="number" max-length="10" placeholder="Phone Number" />
     <input autocomplete="off" id="user-image" class="input" type="text" placeholder="Personal Image" />
@@ -152,21 +152,11 @@ function newUserInfo() {
                     }
                 }
 
-                console.log(result);
-
                 let birthDate = String(birthDay[1]) + String(birthDay[1]) + String(birthDay[1]);
+                phoneNumber = String(phoneNumber);
 
-                let userData = {
-                    full_name: fullName,
-                    user_image: userImage,
-                    birth_date: birthDate,
-                    phone_number: phoneNumber,
-                };
-
-                console.log(userData);
-
+                addUserToDatabase(fullName, userImage, birthDate, phoneNumber);
                 birthDay = [];
-                addUserToDatabase(userData);
             }
         } else {
             alert("Phone Number was entered incorrectly");
@@ -174,20 +164,29 @@ function newUserInfo() {
     }
 }
 
-function addUserToDatabase(userInfo) {
-    fetch(`http://localhost:5000/new_user/`, {
-        method: "GET",
+function addUserToDatabase(fullName, userImage, birthDate, phoneNumber) {
+    let userData = {
+        full_name: fullName,
+        profile_image: userImage,
+        phone_number: phoneNumber,
+        birthday: birthDate,
+    };
+
+    fetch(`http://127.0.0.1:5000/new_user/`, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
     })
-        .then((response) => {
-            console.log(response);
-            response.text();
-        })
-        .then((data) => {
-            console.log(data);
+        .then((response) => response.json())
+
+        .then(() => {
+            userData = JSON.stringify(userData);
+            console.log(userData);
             if (data.status_code === 201) {
-                window.localStorage.setItem("user", JSON.stringify(userInfo));
+                window.localStorage.setItem("user", JSON.stringify(userData));
                 alert("successful registration");
+                console.log(userData);
+                // document.querySelector("#new-user-form").action = "#";
             } else {
                 alert("unsuccessful registration");
             }
@@ -196,3 +195,17 @@ function addUserToDatabase(userInfo) {
             console.log(error);
         });
 }
+
+function viewUser() {
+    fetch(`http://127.0.0.1:5000/view_profiles/`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    })
+        .then((response) => response.text())
+        .then((data) => console.log(data))
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+viewUser();
