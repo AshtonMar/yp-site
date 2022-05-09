@@ -186,7 +186,14 @@ function addUserToDatabase(fullName, userImage, birthDate, phoneNumber) {
                 window.localStorage.setItem("user", JSON.stringify(userData));
                 alert("successful registration");
                 console.log(userData);
-                // document.querySelector("#new-user-form").action = "#";
+
+				document.querySelector("#user-fullname").value === "";
+				document.querySelector("#user-phone-number").value === "";
+				document.querySelector("#user-image").value === "";
+				document.querySelector("#day").value === "";
+				document.querySelector("#month").value === "";
+				document.querySelector("#year").value === "";
+
             } else {
                 alert("unsuccessful registration");
             }
@@ -195,17 +202,3 @@ function addUserToDatabase(fullName, userImage, birthDate, phoneNumber) {
             console.log(error);
         });
 }
-
-function viewUser() {
-    fetch(`http://127.0.0.1:5000/view_profiles/`, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-    })
-        .then((response) => response.text())
-        .then((data) => console.log(data))
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-viewUser();

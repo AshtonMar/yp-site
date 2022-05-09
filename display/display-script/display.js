@@ -162,3 +162,26 @@ function createCard(info) {
 //     window.location.href = "./index.html";
 //   }
 // });
+
+
+function viewUser() {
+    fetch(`http://127.0.0.1:5000/view_profiles/`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    })
+        .then((response) => response.json())
+        .then((data) => {
+			let yp = data.yp_data;
+
+			if(yp.length === 0){
+				alert("There is no data to view")
+			}else{
+				for(i of yp){
+					console.log(i);
+				}
+			}
+		})
+			.catch((error) => {
+            console.log(error);
+        });
+}
