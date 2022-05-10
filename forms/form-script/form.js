@@ -2,42 +2,51 @@ let signInBtn = document.querySelector("#admin-form-btn");
 let signUpBtn = document.querySelector("#new-user-form-btn");
 signInBtn.disabled = true;
 
+window.onload = () =>{
+	createForms("new-user-form");
+}
+
+
 signInBtn.addEventListener("click", () => {
-    console.log(signInBtn.value);
     createForms(signInBtn.value);
 });
 
+
 signUpBtn.addEventListener("click", () => {
-    console.log(signUpBtn.value);
     createForms(signUpBtn.value);
 });
+
 
 function createForms(form) {
     let formSection = document.querySelector("#form-section");
     let currentForm;
 
     let adminForm = `
-  <form id="admin-form" class="form" onsubmit="adminFormFunctionality()" action="#">
+  <form id="admin-form" class="form" action="#">
     <input autocomplete="off" id="admin-username" class="input" type="text" placeholder="Username" />
-    <input autocomplete="off" id="admin-password" class="input" type="password" placeholder="Password" />
+	<div class="view-password">
+		<input autocomplete="off" id="admin-password" class="input" type="password" placeholder="Password" />
+		<i id="toggle-password" class="fa-solid fa-eye-low-vision"></i>
+  	</div>
     <button id="admin-submit-btn" type="submit" value="submit">Sign In</button>
    </form>
 `;
 
     let registrationForm = `
-  <form id="new-user-form" action="#" class="form" onsubmit="newUserInfo()" >
-    <input autocomplete="off" id="user-fullname" class="input" required type="text" placeholder="Full Name" />
-    <input autocomplete="off" id="user-phone-number" class="input" required type="number" max-length="10" placeholder="Phone Number" />
-    <input autocomplete="off" id="user-image" class="input" type="text" placeholder="Personal Image" />
-    <div class="birthdate-entry">
-      <input autocomplete="off" id="day" class="date-input input" required type="number" placeholder="dd" maxlength="2" />
-      <label class="divider">/</label>
-      <input autocomplete="off" id="month" class="date-input input" required type="number" placeholder="mm" maxlength="2" />
-      <label class="divider">/</label>
-      <input autocomplete="off" id="year" class="date-input input" required type="number" placeholder="yyyy" maxlength="4" />
+    <div id="new-user-form" class="form">
+      <input autocomplete="off" id="user-fullname" class="input" required type="text" placeholder="Full Name" />
+      <input autocomplete="off" id="user-phone-number" class="input" required type="number" max-length="10" placeholder="Phone Number" />
+      <input autocomplete="off" id="user-image" class="input" type="file" accept="image/*" placeholder="Personal Image" />
+      <img id="output" width="100%"/>
+      <div class="birthdate-entry">
+        <input autocomplete="off" id="day" class="date-input input" required type="number" placeholder="dd" maxlength="2" />
+        <label class="divider">/</label>
+        <input autocomplete="off" id="month" class="date-input input" required type="number" placeholder="mm" maxlength="2" />
+        <label class="divider">/</label>
+        <input autocomplete="off" id="year" class="date-input input" required type="number" placeholder="yyyy" maxlength="4" />
+      </div>
+      <button id="user-submit-btn">Register User</button>
     </div>
-    <button id="user-submit-btn" type="submit" value="submit">Register User</button>
-  </form>
 `;
 
     if (form === "admin-form") {
@@ -61,10 +70,33 @@ function createForms(form) {
     }
 
     formSection.innerHTML = currentForm;
+
+	
+	if(currentForm === adminForm){
+		const adminUserFormSubmit = document.querySelector("#admin-form").addEventListener("submit", adminFormFunctionality);
+		
+		document.getElementById('toggle-password').addEventListener("click", () => {
+			let password = document.querySelector('#admin-password');
+			if (password.type === "password") {
+				password.type = "text";
+				document.getElementById('toggle-password').className = "fa-regular fa-eye"
+			} else {
+				password.type = "password";
+				document.getElementById('toggle-password').className = "fa-solid fa-eye-low-vision"
+			}
+		});
+		
+		
+	}else{
+		const newUserFormSubmit = document.querySelector("#user-submit-btn").addEventListener("click", newUserInfo);
+
+		document.getElementById("user-image").addEventListener("change", loadFile = function (event) {
+			let image = document.getElementById("output");
+			image.src = URL.createObjectURL(event.target.files[0]);
+		})
+	}
+
 }
-
-createForms("new-user-form");
-
 function createPass() {
     const alpha = "abcdefghijklmnopqrstuvwxyz";
     const calpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -85,32 +117,36 @@ function createPass() {
     return pass;
 }
 
+
 let createdPassword = createPass();
 console.log(createdPassword);
 
+
 function adminFormFunctionality() {
-    let adminUserName = document.querySelector("#admin-username");
-    let adminPassword = document.querySelector("#admin-password");
+	let adminUserName = document.querySelector("#admin-username");
+	let adminPassword = document.querySelector('#admin-password');
 
     const userName = ["Charl", "Ashton"];
     const passWord = ["pass", createdPassword];
-
-    console.log(passWord);
 
     if (userName.includes(adminUserName.value) && passWord.includes(adminPassword.value)) {
         alert(`Welcome ${adminUserName.value}`);
         document.querySelector("#admin-form").action = "/display.html";
     } else if (userName.includes(adminUserName.value) && passWord.includes(adminPassword.value) === false) {
+		console.log("here");
         alert("Incorrect Password Enterered");
-    } else if (userName.includes(adminUserName.value) === false && passWord.includes(adminPassword.value)) {
+		adminPassword.value = "";
+	} else if (userName.includes(adminUserName.value) === false && passWord.includes(adminPassword.value)) {
+		console.log("here");
         alert("Incorrect Username Enterered");
-    } else {
-        alert("Incorrect Details Enterered");
-    }
-
-    adminUserName.value = "";
-    adminPassword.value = "";
+		adminUserName.value = "";
+	}else{
+        alert("Incorrect Username and Password Enterered");
+		adminUserName.value = "";
+		adminPassword.value = "";
+	}
 }
+
 
 function newUserInfo() {
     let fullName = document.querySelector("#user-fullname");
@@ -124,45 +160,49 @@ function newUserInfo() {
     fullName = fullName.value;
     phoneNumber = phoneNumber.value;
     userImage = userImage.value;
-    let birthDay = [];
 
-    if ((day.value.length, month.value.length === 2 && year.value.length === 4)) {
-        birthDay = [day.value, month.value, year.value];
-    } else {
-        alert("Please fill out the birthday correctly");
-    }
+    let inputValueCheck = ["", null, "undefined"];
 
-    let inputValueCheck = ["", null];
-
-    phoneNumber = Number(phoneNumber);
+	if (inputValueCheck.includes(userImage)) {
+		userImage = "./images/display-images/placeholder.jpg";
+	}else{
+		let image = document.getElementById("output");
+		userImage = image.src
+	}
 
     if (inputValueCheck.includes(fullName) === false && typeof fullName === "string") {
-        if (inputValueCheck.includes(phoneNumber) === false && typeof phoneNumber === "number") {
-            if (inputValueCheck.includes(userImage)) {
-                userImage = "./images/display-images/placeholder.jpg";
-            }
-            if (birthDay.length > 0) {
-                let result = true;
+        if (inputValueCheck.includes(phoneNumber) === false && typeof Number(phoneNumber) === "number" && phoneNumber.charAt(0) === "0" && phoneNumber.length === 10) {
+			if ((day.value.length, month.value.length === 2 && year.value.length === 4)) {
+				birthDay = [day.value, month.value, year.value];
+				
+				if (birthDay.length > 0) {
 
-                for (let i = 0; i < birthDay.length; i++) {
-                    if (typeof birthDay[i] === "number" && birthDay[3] > 2008) {
-                        result = false;
-                        birthDay = [];
-                        break;
-                    }
-                }
+					let result = true;
+	
+					for (let i = 0; i < birthDay.length; i++) {
+						if (typeof birthDay[i] === "number" && birthDay[3] > 2008) {
+							result = false;
+							birthDay = [];
+							break;
+						}
+					}
+	
+					birthDate = `${birthDay[0]}/${birthDay[1]}/${birthDay[2]}`;
+					phoneNumber = String(phoneNumber);
+	
+					addUserToDatabase(fullName, userImage, birthDate, phoneNumber);
+					birthDay = [];
+				}
+			} else {
+				alert("Please fill out the birthday correctly");
+			}
 
-                let birthDate = String(birthDay[1]) + String(birthDay[1]) + String(birthDay[1]);
-                phoneNumber = String(phoneNumber);
-
-                addUserToDatabase(fullName, userImage, birthDate, phoneNumber);
-                birthDay = [];
-            }
         } else {
             alert("Phone Number was entered incorrectly");
         }
     }
 }
+
 
 function addUserToDatabase(fullName, userImage, birthDate, phoneNumber) {
     let userData = {
@@ -172,29 +212,19 @@ function addUserToDatabase(fullName, userImage, birthDate, phoneNumber) {
         birthday: birthDate,
     };
 
+
     fetch(`http://127.0.0.1:5000/new_user/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
     })
         .then((response) => response.json())
-
-        .then(() => {
-            userData = JSON.stringify(userData);
-            console.log(userData);
-            if (data.status_code === 201) {
+        .then((data) => {
+			userData = JSON.stringify(userData);
+			if (data.status_code === 201) {
+				alert("successful registration");
                 window.localStorage.setItem("user", JSON.stringify(userData));
-                alert("successful registration");
-                console.log(userData);
-
-				document.querySelector("#user-fullname").value === "";
-				document.querySelector("#user-phone-number").value === "";
-				document.querySelector("#user-image").value === "";
-				document.querySelector("#day").value === "";
-				document.querySelector("#month").value === "";
-				document.querySelector("#year").value === "";
-
-            } else {
+			} else {
                 alert("unsuccessful registration");
             }
         })
