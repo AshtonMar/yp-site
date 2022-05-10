@@ -54,16 +54,23 @@ function ypProfileCard(info) {
 	let age = getAge(info["birthday"])
 	let ypInfoDisplay = document.querySelector("#card-view");
 
+	console.log(info["birthday"].substr(3, 2));
+
+	let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+
 	let ypCard = `
 	<div id="${info["yp_id"]}" class="info-card">
 	<img src="${info["profile_image"]}" alt="person-image" class="person-image" />
 	<div class="persons-info">
-	  <p>${info["birthday"]}</p>
-	  <p>${info["phone_number"]}</p>
-	  <p>${info["full_name"]}</p>
-	  <p>${age}</p>
+	<p>${info["full_name"]}</p>
+	<p>${age}</p>
+	<p>${info["birthday"]}</p>
+	<p>${info["phone_number"]}</p>
 	</div>
 	`;
+
+
 
 	ypInfoDisplay.innerHTML += ypCard
   }
