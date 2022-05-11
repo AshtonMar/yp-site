@@ -13,7 +13,7 @@ navBtns.forEach((navBtn) => {
 
 
 function createPage(monthValue) {
-  let months = ["All", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   let month = months[monthValue];
 
   let monthPageData = {

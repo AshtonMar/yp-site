@@ -15,19 +15,6 @@ body {
   background-blend-mode: overlay;
 }
 
-#reset{
-	cursor: pointer;
-	height: 50px;
-	width: 50px;
-	padding: 10px;
-	background-image: url(../../images/yp-image.png);
-	background-size: cover;
-	border: none;
-	border-radius: 100%;
-	position: absolute;
-	margin: 20px;
-	right: 0;
-}
 
 #info-page {
   display: flex;
@@ -77,48 +64,4 @@ body {
   padding: 20px;
   text-align: center;
   font-size: 50px;
-}
-
-#card-view {
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-
-.info-card {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 350px;
-  margin-block: 10px;
-  height: 550px;
-  background-color: rgba(0, 0, 0, 0.3);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  transform: scale(0.9);
-  transition: all 1s;
-  transition-timing-function: ease-in-out;
-}
-
-.info-card:hover {
-  transform: scale(1);
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 3px solid rgba(255, 255, 255, 0.3);
-}
-
-.person-image {
-  height: 350px;
-  width: 100%;
-}
-
-.persons-info {
-  overflow-y: hidden;
-  padding: 20px;
-  text-align: center;
-}
-
-.persons-info p {
-  color: white;
-  font-size: 20px;
-  margin-block: 10px;
 }
