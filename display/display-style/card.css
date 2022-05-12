@@ -3,13 +3,13 @@
 	justify-content: center;
 	flex-direction: row;
 	flex-wrap: wrap;
-  }
-  
-  .info-card {
+}
+
+.info-card {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	width: 500px;
+	width: 400px;
 	margin-block: 10px;
 	height: 550px;
 	background-color: rgba(0, 0, 0, 0.3);
@@ -17,29 +17,32 @@
 	transform: scale(0.9);
 	transition: all 1s;
 	transition-timing-function: ease-in-out;
-  }
-  
-  .info-card:hover {
+}
+
+.info-card:hover {
 	transform: scale(1);
 	background-color: rgba(0, 0, 0, 0.5);
 	border: 3px solid rgba(255, 255, 255, 0.3);
-  }
-  
-  .person-image {
-	  object-fit: cover;
+}
+
+.person-image {
+	object-fit: cover;
 	height: 350px;
 	width: 100%;
-  }
-  
-  .persons-info {
+}
+
+.persons-info {
 	overflow-y: hidden;
 	padding: 20px;
 	text-align: center;
-  }
-  
-  .persons-info p {
+}
+
+.persons-info p {
 	color: white;
 	font-size: 20px;
 	margin-block: 10px;
-  }
-  
+}
+
+.hide {
+	display: none;
+}
