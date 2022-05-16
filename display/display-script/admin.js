@@ -1,3 +1,12 @@
+let navBtns = document.querySelectorAll(".nav-link");
+
+navBtns.forEach((navBtn) => {
+	navBtn.addEventListener("click", () => {
+		let monthValue = navBtn.value;
+		getMonthPage(monthValue);
+	});
+});
+
 function getMonthPage(monthValue) {
 	let userData = localStorage.getItem("ypData");
 	let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -13,52 +22,61 @@ function getMonthPage(monthValue) {
 	monthHeading.innerHTML = `${month} Birthdays`;
 	document.body.style = `background-image: url(${monthPageData["monthBackground"]}), linear-gradient(45deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1))`;
 
-	createCard(userData, month)
+	createCard(userData, month);
 }
 
-
-let navBtns = document.querySelectorAll(".nav-link");
-
-navBtns.forEach((navBtn) => {
-	navBtn.addEventListener("click", () => {
-		let monthValue = navBtn.value;
-		getMonthPage(monthValue);
-	});
-});
-
 function createCard(peopleInfo, month) {
-	peopleInfo = JSON.parse(peopleInfo)
-
-	console.log(peopleInfo, month);
-	const cardTemplate = document.querySelector("#data-user-template")
-	const card = cardTemplate.content.cloneNode(true).children[0]
-
-	const imageSrc = card.querySelector(".person-image")
-	const fullName = card.querySelector(".name")
-	const phoneNumber = card.querySelector(".phone-number")
-	const age = card.querySelector(".age")
-	const birthDay = card.querySelector(".birthday")
-
+	const cardContainer = document.querySelector("#card-view");
+	peopleInfo = JSON.parse(peopleInfo);
 
 	peopleInfo.forEach(personsInfo => {
-		let personsMonth = personsInfo["birthday"].substr(0, 2)
+		let personsMonth = personsInfo["birthday"].substr(0, 2);
 		let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-		if (personsMonth.substr(0, 1) == months.indexOf(month) && months.includes(month)) {
-			imageSrc.src = personsInfo["profile_image"]
-			fullName.textContent = personsInfo["full_name"]
-			phoneNumber.textContent = personsInfo["birthday"]
-			age.textContent = personsInfo["full_name"]
-			birthDay.textContent = personsInfo["birthday"]
+		let imageSrc = personsInfo["personal_image"];
+		let fullName = personsInfo["full_name"];
+		let phoneNumber = personsInfo["phone_number"];
+		let age = personsInfo["age"];
+		let birthDay = personsInfo["birthday"];
 
-			console.log(card);
+		let card = `
+		<div class="card">
+			<div class="info-card">
+				<img class="person-image" src="${imageSrc}" alt="">
+				<div class="persons-info">
+					<p class="name">${fullName}</p>
+					<p class="phone-number">${phoneNumber}</p>
+					<p class="age">${age}</p>
+					<p class="birthday">${birthDay}</p>
+				</div>
+			</div>
+		</div>
+		`;
+
+
+		console.log(personsMonth.substr(1, 1));
+
+		let classMatch = Number(personsMonth.substr(1, 1));
+		console.log(classMatch, months.indexOf(month), month);
+		cardContainer.innerHTML = "";
+
+		const noBirthdayMessage = `
+		<div id="no-birthdays">
+			<p style="font-size: 50px; color:black;">No birthdays in this month</p>
+		</div>
+		`;
+
+		if (classMatch == months.indexOf(month) && months.includes(month)) {
+			console.log("Card Added");
+			cardContainer.innerHTML = card;
 		} else {
-			//pass
-		}
+			console.log("Card Not For The Month");
+			cardContainer.innerHTML = noBirthdayMessage;
 
+		}
 	});
 }
 
 window.onload = () => {
-	getMonthPage(0)
+	getMonthPage(0);
 };

@@ -1,5 +1,58 @@
-let users = []
-const searchInput = document.querySelector("[data-search]")
+let users = [];
+
+class searchNavigation {
+	searchInput;
+	modalBtn;
+	togglepassWord;
+
+	constructor() {
+		let modal = document.getElementById("admin-modal");
+		this.searchInput = document.querySelector("[data-search]");
+		this.modalBtn = document.getElementById("admin-btn");
+		this.togglepassWord = document.getElementById("toggle-password");
+
+		this.togglepassWord.addEventListener("click", () => {
+			let password = document.querySelector("#admin-password");
+
+			if (password.type === "password") {
+				password.type = "text";
+				document.getElementById("toggle-password").className = "fa-regular fa-eye";
+			} else {
+				password.type = "password";
+				document.getElementById("toggle-password").className = "fa-solid fa-eye-low-vision";
+			}
+		});
+
+		this.modalBtn.onclick = function () {
+			if (modal.style.filter == "opacity(1)") {
+				modal.style = `
+				filter: opacity(0);
+				z-index: -1;`;
+			} else {
+				modal.style = `
+				filter: opacity(1);
+				z-index: 985;`;
+			}
+
+			const signInBtn = document.getElementById("sign-in-btn");
+
+			signInBtn.addEventListener("click", adminSignIn);
+		};
+
+		this.searchInput.addEventListener("input", (e) => {
+			const value = e.target.value.toLowerCase();
+
+			users.forEach(user => {
+				let age = String(user["age"]);
+				let birthDay = user["birthday"];
+
+				const isVisible = user["name"].toLowerCase().includes(value) || age.includes(value) || birthDay.includes(value);
+				user["element"].classList.toggle("hide", !isVisible);
+
+			});
+		});
+	}
+};
 
 function userInfo() {
 	fetch(`http://127.0.0.1:5000/view_yp_profiles/`, {
@@ -8,45 +61,31 @@ function userInfo() {
 	})
 		.then((response) => response.json())
 		.then(data => {
-			data = data.yp_data
+			data = data.yp_data;
 
-			let ypDataArray = []
+			let ypDataArray = [];
 
 			data.forEach(user => {
-				let ypAge = getAge(user["birthday"])
+				let ypAge = getAge(user["birthday"]);
 				let ypData = {
 					full_name: user["full_name"],
 					personal_image: user["profile_image"],
 					age: ypAge,
 					birthday: user["birthday"],
 					phone_number: user["phone_number"]
-				}
+				};
 
-				ypDataArray.push(ypData)
+				ypDataArray.push(ypData);
 
-				console.log(ypDataArray);
 			});
-			window.localStorage.setItem("ypData", JSON.stringify(ypDataArray))
+			window.localStorage.setItem("ypData", JSON.stringify(ypDataArray));
 
-			ypProfileCard(data)
+			ypProfileCard(data);
 		})
 		.catch((error) => {
 			console.log(error);
 		});
 }
-
-searchInput.addEventListener("input", (e) => {
-	const value = e.target.value.toLowerCase()
-
-	users.forEach(user => {
-		let age = String(user["age"])
-		let birthDay = user["birthday"]
-
-		const isVisible = user["name"].toLowerCase().includes(value) || age.includes(value) || birthDay.includes(value)
-		user["element"].classList.toggle("hide", !isVisible)
-
-	})
-})
 
 function getAge(birthdayDate) {
 	let today = new Date();
@@ -59,98 +98,63 @@ function getAge(birthdayDate) {
 		age--;
 	}
 
-	return age
+	return age;
 }
 
 function ypProfileCard(info) {
-	const ypCardTemplate = document.querySelector("[data-user-template]")
-	const ypCardContainer = document.querySelector("#card-view")
+	const ypCardTemplate = document.querySelector("[data-user-template]");
+	const ypCardContainer = document.querySelector("#card-view");
 
 	users = info.map(user => {
-		const card = ypCardTemplate.content.cloneNode(true).children[0]
+		const card = ypCardTemplate.content.cloneNode(true).children[0];
 
-		const body = card.querySelector("[data-body]")
-		const image = body.querySelector("[data-image]")
-		const name = body.querySelector("[data-name]")
-		const age = body.querySelector("[data-age]")
-		const birthDay = body.querySelector("[data-birthday]")
+		const body = card.querySelector("[data-body]");
+		const image = body.querySelector("[data-image]");
+		const name = body.querySelector("[data-name]");
+		const age = body.querySelector("[data-age]");
+		const birthDay = body.querySelector("[data-birthday]");
 
-		const ypAge = getAge(user["birthday"])
+		const ypAge = getAge(user["birthday"]);
 
-		image.src = user["profile_image"]
-		name.textContent = user["full_name"]
-		age.textContent = ypAge
-		birthDay.textContent = user["birthday"]
+		image.src = user["profile_image"];
+		name.textContent = user["full_name"];
+		age.textContent = ypAge;
+		birthDay.textContent = user["birthday"];
 
-		ypCardContainer.append(card)
+		ypCardContainer.append(card);
 
-		return { element: card, name: user["full_name"], age: ypAge, birthday: user["birthday"] }
+		return { element: card, name: user["full_name"], age: ypAge, birthday: user["birthday"] };
 	});
 
 }
 
-userInfo()
-
 function adminSignIn() {
-	const usernameValue = document.getElementById("admin-username").value.toLowerCase().trim()
-	const passwordValue = document.getElementById("admin-password").value.toLowerCase().trim()
+	const usernameValue = document.getElementById("admin-username").value.toLowerCase().trim();
+	const passwordValue = document.getElementById("admin-password").value.toLowerCase().trim();
 
 	let usersInfo = {
 		username: "Ashton Martin",
 		password: "vMvwST6y75cTRk"
-	}
+	};
 
-	JSON.stringify(usersInfo)
+	JSON.stringify(usersInfo);
 
 	if (usernameValue === usersInfo["username"].toLowerCase() && passwordValue === usersInfo["password"].toLowerCase()) {
 		alert(`Welcome ${usersInfo["username"]}`);
-		document.querySelector("#admin-form").action = "/admin.html"
+		document.querySelector("#admin-form").action = "/admin.html";
 	} else if (usernameValue === usersInfo["username"] && passwordValue !== usersInfo["password"]) {
-		alert("The password is incorrect")
+		alert("The password is incorrect");
 	} else if (usernameValue !== usersInfo["username"] && passwordValue === usersInfo["password"]) {
-		alert("The username is incorrect")
+		alert("The username is incorrect");
 	} else if (usernameValue !== usersInfo["username"] && passwordValue !== usersInfo["password"]) {
-		alert("The login info you entered is incorrect")
+		alert("The login info you entered is incorrect");
 	}
 
-	usernameValue.value = ""
-	passwordValue.value = ""
+	usernameValue.value = "";
+	passwordValue.value = "";
 }
 
-let modal = document.getElementById("admin-modal");
-let modalBtn = document.getElementById("admin-btn");
-
-const togglepassWord = document.getElementById("toggle-password")
-
-togglepassWord.addEventListener("click", () => {
-	let password = document.querySelector("#admin-password");
-
-	if (password.type === "password") {
-		password.type = "text";
-		document.getElementById("toggle-password").className = "fa-regular fa-eye";
-	} else {
-		password.type = "password";
-		document.getElementById("toggle-password").className = "fa-solid fa-eye-low-vision";
-	}
-});
-
-modalBtn.onclick = function () {
-	modal.style = `
-	filter: opacity(1);
-	z-index: 999;
-	`;
-
-	const signInBtn = document.getElementById("sign-in-btn")
-
-	signInBtn.addEventListener("click", adminSignIn)
-}
-
-window.onclick = function (event) {
-	if (event.target == modal) {
-		modal.style = `
-		filter: opacity(0);
-		z-index: -1;
-		`;
-	}
-
-}
+window.onload = () => {
+	userInfo();
+	const search = new searchNavigation();
+};

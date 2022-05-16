@@ -181,7 +181,7 @@ function newUserInfo() {
 	if (inputValueCheck.includes(fullName) === false && typeof fullName === "string") {
 		if (inputValueCheck.includes(phoneNumber) === false && typeof Number(phoneNumber) === "number" && phoneNumber.charAt(0) === "0" && phoneNumber.length === 10) {
 			if (day.value.length, month.value.length === 2 && year.value.length === 4) {
-				if (Number(day.value) <= 31 && Number(month.value) <= 12 && Number(year.value) > 2009) {
+				if (Number(day.value) <= 31 && Number(month.value) <= 12 && Number(year.value) < 2009) {
 					birthDay = [day.value, month.value, year.value];
 					if (birthDay.length > 0) {
 						let result = true;

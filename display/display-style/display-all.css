@@ -29,6 +29,7 @@ body {
 	position: absolute;
 	margin: 15px 20px;
 	right: 0;
+	z-index: 990;
 }
 
 #search-area {
