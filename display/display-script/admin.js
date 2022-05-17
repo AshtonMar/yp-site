@@ -53,27 +53,25 @@ function createCard(peopleInfo, month) {
 		</div>
 		`;
 
-
-		console.log(personsMonth.substr(1, 1));
-
 		let classMatch = Number(personsMonth.substr(1, 1));
-		console.log(classMatch, months.indexOf(month), month);
-		cardContainer.innerHTML = "";
-
 		const noBirthdayMessage = `
 		<div id="no-birthdays">
 			<p style="font-size: 50px; color:black;">No birthdays in this month</p>
 		</div>
 		`;
 
-		if (classMatch == months.indexOf(month) && months.includes(month)) {
-			console.log("Card Added");
-			cardContainer.innerHTML = card;
-		} else {
-			console.log("Card Not For The Month");
+		let match = classMatch !== months.indexOf(month);
+
+		if (classMatch !== months.indexOf(month)) {
+			console.log("Not This Month");
 			cardContainer.innerHTML = noBirthdayMessage;
 
+			if (classMatch == months.indexOf(month)) {
+				cardContainer.innerHTML = "";
+				cardContainer.innerHTML = card;
+			}
 		}
+
 	});
 }
 
