@@ -91,7 +91,6 @@ body {
 	margin: auto;
 	padding: 20px;
 	z-index: -1;
-	border: 1px solid #888;
 	filter: opacity(0);
 	transition: all 0.5s;
 	transition-timing-function: ease-in-out;

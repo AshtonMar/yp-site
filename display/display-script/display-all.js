@@ -1,27 +1,14 @@
 let users = [];
+let adminSignedIn = false;
 
 class searchNavigation {
 	searchInput;
 	modalBtn;
-	togglepassWord;
 
 	constructor() {
-		let modal = document.getElementById("admin-modal");
+		const modal = document.getElementById("admin-modal");
 		this.searchInput = document.querySelector("[data-search]");
 		this.modalBtn = document.getElementById("admin-btn");
-		this.togglepassWord = document.getElementById("toggle-password");
-
-		this.togglepassWord.addEventListener("click", () => {
-			let password = document.querySelector("#admin-password");
-
-			if (password.type === "password") {
-				password.type = "text";
-				document.getElementById("toggle-password").className = "fa-regular fa-eye";
-			} else {
-				password.type = "password";
-				document.getElementById("toggle-password").className = "fa-solid fa-eye-low-vision";
-			}
-		});
 
 		this.modalBtn.onclick = function () {
 			if (modal.style.filter == "opacity(1)") {
@@ -34,9 +21,39 @@ class searchNavigation {
 				z-index: 985;`;
 			}
 
-			const signInBtn = document.getElementById("sign-in-btn");
 
-			signInBtn.addEventListener("click", adminSignIn);
+			if (adminSignedIn === false) {
+				const adminForm = `
+				<form id="admin-form" class="form" action="#">
+					<input required autocomplete="off" id="admin-username" class="input" type="text" placeholder="Username" />
+					<div class="view-password">
+						<input required autocomplete="off" id="admin-password" class="input" type="password"
+							placeholder="Password" />
+						<i id="toggle-password" class="fa-solid fa-eye-low-vision"></i>
+					</div>
+					<button id="sign-in-btn">Sign In</button>
+				</form>`;
+
+				modal.innerHTML = adminForm;
+
+				const signInBtn = document.getElementById("sign-in-btn");
+				const togglepassWord = document.getElementById("toggle-password");
+
+				togglepassWord.addEventListener("click", () => {
+					let password = document.querySelector("#admin-password");
+
+					if (password.type === "password") {
+						password.type = "text";
+						document.getElementById("toggle-password").className = "fa-regular fa-eye";
+					} else {
+						password.type = "password";
+						document.getElementById("toggle-password").className = "fa-solid fa-eye-low-vision";
+					}
+				});
+
+				signInBtn.addEventListener("click", adminSignIn);
+			}
+
 		};
 
 		this.searchInput.addEventListener("input", (e) => {
@@ -80,7 +97,9 @@ function userInfo() {
 			});
 			window.localStorage.setItem("ypData", JSON.stringify(ypDataArray));
 
+
 			ypProfileCard(data);
+
 		})
 		.catch((error) => {
 			console.log(error);
@@ -108,6 +127,8 @@ function ypProfileCard(info) {
 	users = info.map(user => {
 		const card = ypCardTemplate.content.cloneNode(true).children[0];
 
+		card.id = user["yp_id"];
+
 		const body = card.querySelector("[data-body]");
 		const image = body.querySelector("[data-image]");
 		const name = body.querySelector("[data-name]");
@@ -125,7 +146,6 @@ function ypProfileCard(info) {
 
 		return { element: card, name: user["full_name"], age: ypAge, birthday: user["birthday"] };
 	});
-
 }
 
 function adminSignIn() {
@@ -141,7 +161,21 @@ function adminSignIn() {
 
 	if (usernameValue === usersInfo["username"].toLowerCase() && passwordValue === usersInfo["password"].toLowerCase()) {
 		alert(`Welcome ${usersInfo["username"]}`);
-		document.querySelector("#admin-form").action = "/admin.html";
+		adminSignedIn = true;
+
+		adminFunctionality();
+
+		const modal = document.getElementById("admin-modal");
+		const logOutBtnElement = `<button id="log-out-btn">Log Out</button>`;
+		modal.innerHTML = logOutBtnElement;
+
+		const logOutBtn = document.querySelector("#log-out-btn");
+
+		logOutBtn.addEventListener("click", () => {
+			adminSignedIn = false;
+			window.location.reload();
+		});
+
 	} else if (usernameValue === usersInfo["username"] && passwordValue !== usersInfo["password"]) {
 		alert("The password is incorrect");
 	} else if (usernameValue !== usersInfo["username"] && passwordValue === usersInfo["password"]) {

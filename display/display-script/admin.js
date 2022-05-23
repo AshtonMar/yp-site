@@ -1,80 +1,132 @@
-let navBtns = document.querySelectorAll(".nav-link");
-
-navBtns.forEach((navBtn) => {
-	navBtn.addEventListener("click", () => {
-		let monthValue = navBtn.value;
-		getMonthPage(monthValue);
-	});
-});
-
-function getMonthPage(monthValue) {
-	let userData = localStorage.getItem("ypData");
-	let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-	let month = months[monthValue];
-
-	let monthPageData = {
-		month: month,
-		monthBackground: `./images/display-images/${month}.jpg`,
-	};
-
-	let monthHeading = document.querySelector("#month-heading");
-
-	monthHeading.innerHTML = `${month} Birthdays`;
-	document.body.style = `background-image: url(${monthPageData["monthBackground"]}), linear-gradient(45deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1))`;
-
-	createCard(userData, month);
+function fetchData() {
+	fetch(`http://127.0.0.1:5000/view_yp_profiles/`, {
+		method: "GET",
+		headers: { "Content-Type": "application/json" },
+	})
+		.then((response) => response.json())
+		.then(data => {
+			data = data.yp_data;
+			userArray = data;
+			console.log(userArray);
+		})
+		.catch((error) => {
+			console.log(error);
+		});
 }
 
-function createCard(peopleInfo, month) {
-	const cardContainer = document.querySelector("#card-view");
-	peopleInfo = JSON.parse(peopleInfo);
+let userArray = [];
 
-	peopleInfo.forEach(personsInfo => {
-		let personsMonth = personsInfo["birthday"].substr(0, 2);
-		let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+fetchData();
 
-		let imageSrc = personsInfo["personal_image"];
-		let fullName = personsInfo["full_name"];
-		let phoneNumber = personsInfo["phone_number"];
-		let age = personsInfo["age"];
-		let birthDay = personsInfo["birthday"];
+function adminFunctionality() {
+	const displayBody = document.querySelector("body");
+	const ypCards = document.querySelectorAll(".card");
 
-		let card = `
-		<div class="card">
-			<div class="info-card">
-				<img class="person-image" src="${imageSrc}" alt="">
-				<div class="persons-info">
-					<p class="name">${fullName}</p>
-					<p class="phone-number">${phoneNumber}</p>
-					<p class="age">${age}</p>
-					<p class="birthday">${birthDay}</p>
-				</div>
-			</div>
-		</div>
-		`;
+	ypCards.forEach((ypCard) => {
+		ypCard.addEventListener("click", () => {
+			for (i of userArray) {
+				let user = i;
+				console.log(user["yp_id"], ypCard.id, user["yp_id"] == ypCard.id);
+				if (user["yp_id"] == ypCard.id) {
+					const age = getAge(i["birthday"]);
+					const modalBody = `
+						<div id="admin-functions-modal">
+							<div id="admin-btn" class="admin-functions-view">
+							</div>
+							<div id="admin-options">
+								<button id="delete-user-btn" value="${i["yp_id"]}">Delete User</button>
+								<button id="user-update-btn" value="${i["yp_id"]}">Update User</button>
+							</div>
+							<div class="user-info">
+								<div class="info">
+									<img class="person-image" src="${i["profile_image"]}" alt="${i["full_name"]}-image">
+										<div class="persons-info">
+											<p class="name">${i["full_name"]}</p>
+											<p class="age">${age}</p>
+											<p class="birthday">${i["birthday"]}</p>
+											<p class="phone-number">${i["phone_number"]}</p>
+										</div>
+								</div>
+							</div>
+						</div>
+						`;
 
-		let classMatch = Number(personsMonth.substr(1, 1));
-		const noBirthdayMessage = `
-		<div id="no-birthdays">
-			<p style="font-size: 50px; color:black;">No birthdays in this month</p>
-		</div>
-		`;
+					displayBody.innerHTML += modalBody;
 
-		let match = classMatch !== months.indexOf(month);
+					const adminModal = document.getElementById("admin-functions-modal");
+					adminModal.style.filter = "opacity(1)";
+					adminModal.style.zIndex = "995";
 
-		if (classMatch !== months.indexOf(month)) {
-			console.log("Not This Month");
-			cardContainer.innerHTML = noBirthdayMessage;
+					const updateBtn = document.getElementById("user-update-btn");
+					const deleteBtn = document.getElementById("delete-user-btn");
 
-			if (classMatch == months.indexOf(month)) {
-				cardContainer.innerHTML = "";
-				cardContainer.innerHTML = card;
+					updateBtn.addEventListener('click', updateInfo(user));
+					deleteBtn.addEventListener('click', deleteInfo);
+
+					const modalExitBtn = document.querySelector(".admin-functions-view").addEventListener('click', () => {
+						adminModal.style.filter = "opacity(0)";
+						adminModal.style.zIndex = "-1";
+					});
+
+				} else {
+					return;
+				}
+
 			}
-		}
-
+		});
 	});
 }
 
-window.onload = () => {
-	getMonthPage(0);
-};
+function updateInfo(usersInfo) {
+	const adminModal = document.getElementById("admin-functions-modal");
+
+	const updateForm = `
+	<form action="#" id="update-user-info" class="update-form">
+		<input autocomplete="off" id="user-fullname" class="input" required type="text"
+			placeholder="Full Name" />
+		<input autocomplete="off" id="user-phone-number" class="input" required type="number"
+			max-length="10" placeholder="Phone Number" />
+		<input autocomplete="off" id="user-image" class="input" type="file" accept="image/*"
+			placeholder="Personal Image" />
+		<img id="output" width="100%" />
+		<div class="birthdate-entry">
+			<input autocomplete="off" id="month" class="date-input input" required type="number"
+				placeholder="mm" maxlength="2" />
+			<label class="divider">/</label>
+			<input autocomplete="off" id="day" class="date-input input" required type="number"
+				placeholder="dd" maxlength="2" />
+			<label class="divider">/</label>
+			<input autocomplete="off" id="year" class="date-input input" required type="number"
+				placeholder="yyyy" maxlength="4" />
+		</div>
+		<button id="update-info-btn">Update Info</button>
+	</form>
+	`;
+
+	adminModal.innerHTML = updateForm;
+
+	const UpdateBtn = document.querySelector("#update-info-btn").addEventListener('click', () => {
+		const nameUpdateInput = document.querySelector("#user-fullname").value;
+		const imageUpdateInput = document.querySelector("#user-phone-number").value;
+		const phoneNumberUpdateInput = document.querySelector("#user-image").value;
+		const birthmonthInput = document.querySelector("#month").value;
+		const birthdayInput = document.querySelector("#day").value;
+		const birthyearInput = document.querySelector("#year").value;
+		const birthdateUpdateInput = `${birthmonthInput}/${birthdayInput}/${birthyearInput}`;
+
+		console.log(usersInfo);
+		console.log(nameUpdateInput, imageUpdateInput, phoneNumberUpdateInput, birthdateUpdateInput);
+	});
+}
+
+function deleteInfo() {
+	const adminModal = document.getElementById("admin-functions-modal");
+	const deleteForm = `
+	<form action="#" id="update-user-info" class="update-form">
+		<input autocomplete="off" id="user-fullname" class="input" required type="text"
+			placeholder="Full Name" />
+		<input autocomplete="off" id="user-phone-number" class="input" required type="number"
+			max-length="10" placeholder="Phone Number" />
+	</form>
+	`;
+}
