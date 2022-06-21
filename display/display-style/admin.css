@@ -43,3 +43,41 @@
 	width: 300px;
 	margin-block: 20px;
 }
+
+/* Forms */
+#update-user-info {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.birthdate-format {
+	display: flex;
+	justify-content: space-evenly;
+	flex-direction: row;
+	width: 100%;
+	padding: 20px;
+}
+
+.birthdate-entry {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: row;
+	width: 100%;
+}
+
+.date-input {
+	width: 100px;
+}
+
+.divider {
+	font-size: 50px;
+	color: white;
+}
+
+#user-submit-btn {
+	width: 420px;
+	margin-inline: 0px;
+}

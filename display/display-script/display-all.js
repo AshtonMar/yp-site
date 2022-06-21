@@ -51,6 +51,12 @@ class searchNavigation {
 					}
 				});
 
+				const adminStatus = localStorage.getItem("adminStatus");
+
+				if (adminStatus) {
+					alreadySignedIn();
+				}
+
 				signInBtn.addEventListener("click", adminSignIn);
 			}
 
@@ -148,6 +154,22 @@ function ypProfileCard(info) {
 	});
 }
 
+function alreadySignedIn() {
+	const modal = document.getElementById("admin-modal");
+	const logOutBtnElement = `<button id="log-out-btn">Log Out</button>`;
+	modal.innerHTML = logOutBtnElement;
+
+	const logOutBtn = document.querySelector("#log-out-btn");
+
+	logOutBtn.addEventListener("click", () => {
+		adminSignedIn = false;
+		localStorage.removeItem("adminStatus");
+		window.location.reload();
+	});
+
+	adminFunctionality();
+}
+
 function adminSignIn() {
 	const usernameValue = document.getElementById("admin-username").value.toLowerCase().trim();
 	const passwordValue = document.getElementById("admin-password").value.toLowerCase().trim();
@@ -163,18 +185,8 @@ function adminSignIn() {
 		alert(`Welcome ${usersInfo["username"]}`);
 		adminSignedIn = true;
 
-		adminFunctionality();
-
-		const modal = document.getElementById("admin-modal");
-		const logOutBtnElement = `<button id="log-out-btn">Log Out</button>`;
-		modal.innerHTML = logOutBtnElement;
-
-		const logOutBtn = document.querySelector("#log-out-btn");
-
-		logOutBtn.addEventListener("click", () => {
-			adminSignedIn = false;
-			window.location.reload();
-		});
+		localStorage.setItem("adminStatus", adminSignedIn);
+		alreadySignedIn();
 
 	} else if (usernameValue === usersInfo["username"] && passwordValue !== usersInfo["password"]) {
 		alert("The password is incorrect");

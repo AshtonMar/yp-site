@@ -1,7 +1,7 @@
 let signInBtn = document.querySelector("#admin-form-btn");
 let signUpBtn = document.querySelector("#new-user-form-btn");
 let userNames = [];
-let createdPassword
+let createdPassword;
 signInBtn.disabled = true;
 
 window.onload = () => {
@@ -99,9 +99,11 @@ function createForms(form) {
 			if (password.type === "password") {
 				password.type = "text";
 				document.getElementById("toggle-password").className = "fa-regular fa-eye";
+
 			} else {
 				password.type = "password";
 				document.getElementById("toggle-password").className = "fa-solid fa-eye-low-vision";
+
 			}
 		});
 
@@ -141,17 +143,21 @@ function adminFormFunctionality(userNames) {
 
 	if (userNames.includes(lowerCaseUsername) && passWord.includes(adminPassword.value)) {
 		alert(`Welcome ${userUserName.value}`);
-		window.location.href = "./display-all.html";
+		window.location.replace("http://127.0.0.1:5500/display-all.html");
+
 	} else if (userNames.includes(lowerCaseUsername) && passWord.includes(adminPassword.value) === false) {
 		alert("Incorrect Password Enterered");
 		adminPassword.value = "";
+
 	} else if (userNames.includes(lowerCaseUsername) === false && passWord.includes(adminPassword.value)) {
 		alert("Incorrect Username Enterered");
 		userUserName = "";
+
 	} else {
 		alert("Incorrect Username and Password Enterered");
 		userUserName = "";
 		adminPassword.value = "";
+
 	}
 }
 

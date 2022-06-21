@@ -5,6 +5,10 @@
 	flex-wrap: wrap;
 }
 
+.card {
+	cursor: pointer;
+}
+
 .info-card {
 	display: flex;
 	align-items: center;
