@@ -5,12 +5,18 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<link rel="shortcut icon" type="image/png" href="./images/admin-image.png" />
+	<link rel="stylesheet" href="./admin/admin-style/admin.css">
+	<title>YP Admin Contols</title>
 </head>
 
 <body>
 	<section id="admin-controls">
-		<input type="text">
+		<div id="admin-search">
+			<input id="record-search" placeholder="Find Young Person..." type="text">
+			<div id="search-btn">
+			</div>
+		</div>
 		<div id="admin-control-btns">
 			<button>Add</button>
 			<button>Edit</button>
@@ -18,7 +24,10 @@
 		</div>
 	</section>
 	<section id="admin-grid">
+		<table id="young-people-info">
+		</table>
 	</section>
+	<script src="./admin/admin-script/admin.js"></script>
 </body>
 
 </html>

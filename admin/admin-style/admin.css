@@ -1,0 +1,55 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+}
+
+#admin-controls {
+	display: flex;
+	justify-content: space-evenly;
+	flex-direction: row;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	padding: 50px;
+	background-color: black;
+}
+
+#admin-search {
+	display: flex;
+	flex-direction: row;
+}
+
+#search-btn {
+	cursor: pointer;
+	height: 35px;
+	width: 35px;
+	padding: 10px;
+	background-image: url(../../images/admin-image.png);
+	background-size: cover;
+	border: 1px solid white;
+}
+
+#record-search {
+	width: 350px;
+	padding-inline: 10px;
+}
+
+/* #record-search::placeholder {} */
+
+#admin-control-btns {
+	display: flex;
+	justify-content: space-evenly;
+	flex-direction: row;
+	width: 50%;
+}
+
+#admin-control-btns button {
+	width: 150px;
+	height: 30px;
+}
