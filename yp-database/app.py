@@ -28,8 +28,6 @@ app = Flask(__name__)
 app.debug = True
 CORS(app)
 
-#
-
 
 @app.route("/new_user/", methods=["POST"])
 def new_user():

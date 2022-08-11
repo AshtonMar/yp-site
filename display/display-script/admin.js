@@ -9,7 +9,7 @@ function fetchData() {
 			userArray = data;
 		})
 		.catch((error) => {
-			console.log(error);
+			alert(error);
 		});
 }
 
@@ -37,26 +37,26 @@ function adminFunctionality() {
 
 	ypCards.forEach((ypCard) => {
 		ypCard.addEventListener("click", () => {
-			for (i of userArray) {
-				let user = i;
+			for (user of userArray) {
+				console.log(userArray);
 				if (user["yp_id"] == ypCard.id) {
-					const age = getAge(i["birthday"]);
+					const age = getAge(user["birthday"]);
 					const modalBody = `
 						<div id="admin-functions-modal">
 							<div id="admin-btn" class="admin-functions-view">
 							</div>
 							<div id="admin-options">
-								<button id="delete-user-btn" value="${i["yp_id"]}">Delete User</button>
-								<button id="user-update-btn" value="${i["yp_id"]}">Update User</button>
+								<button id="delete-user-btn" value="${user["yp_id"]}">Delete User</button>
+								<button id="user-update-btn" value="${user["yp_id"]}">Update User</button>
 							</div>
 							<div class="user-info">
 								<div class="info">
-									<img class="person-image" src="${i["profile_image"]}" alt="${i["full_name"]}-image">
+									<img class="person-image" src="${user["profile_image"]}" alt="${user["full_name"]}-image">
 										<div class="persons-info">
-											<p class="name">${i["full_name"]}</p>
+											<p class="name">${user["full_name"]}</p>
 											<p class="age">${age}</p>
-											<p class="birthday">${i["birthday"]}</p>
-											<p class="phone-number">${i["phone_number"]}</p>
+											<p class="birthday">${user["birthday"]}</p>
+											<p class="phone-number">${user["phone_number"]}</p>
 										</div>
 								</div>
 							</div>
@@ -71,15 +71,15 @@ function adminFunctionality() {
 
 					const updateBtn = document.getElementById("user-update-btn");
 					const deleteBtn = document.getElementById("delete-user-btn");
+					const modalExitBtn = document.querySelector("#admin-btn.admin-functions-view");
 
 					updateBtn.addEventListener('click', () => { updateInfo(user); });
 
 					deleteBtn.addEventListener('click', () => { deleteInfo(); });
 
-					const modalExitBtn = document.querySelector("#admin-btn.admin-functions-view");
-
 					modalExitBtn.addEventListener('click', () => {
-						adminModal.style.display = "none";
+						adminModal.style.filter = "opacity(0)";
+						adminModal.style.zIndex = "-1";
 					});
 
 				} else {
@@ -88,6 +88,7 @@ function adminFunctionality() {
 
 			}
 		});
+
 	});
 }
 

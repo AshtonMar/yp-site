@@ -1,5 +1,4 @@
 let users = [];
-let adminSignedIn = false;
 
 class searchNavigation {
 	searchInput;
@@ -21,9 +20,7 @@ class searchNavigation {
 				z-index: 985;`;
 			}
 
-
-			if (adminSignedIn === false) {
-				const adminForm = `
+			const adminForm = `
 				<form id="admin-form" class="form" action="#">
 					<input required autocomplete="off" id="admin-username" class="input" type="text" placeholder="Username" />
 					<div class="view-password">
@@ -34,31 +31,24 @@ class searchNavigation {
 					<button id="sign-in-btn">Sign In</button>
 				</form>`;
 
-				modal.innerHTML = adminForm;
+			modal.innerHTML = adminForm;
 
-				const signInBtn = document.getElementById("sign-in-btn");
-				const togglepassWord = document.getElementById("toggle-password");
+			const signInBtn = document.getElementById("sign-in-btn");
+			const togglepassWord = document.getElementById("toggle-password");
 
-				togglepassWord.addEventListener("click", () => {
-					let password = document.querySelector("#admin-password");
+			togglepassWord.addEventListener("click", () => {
+				let password = document.querySelector("#admin-password");
 
-					if (password.type === "password") {
-						password.type = "text";
-						document.getElementById("toggle-password").className = "fa-regular fa-eye";
-					} else {
-						password.type = "password";
-						document.getElementById("toggle-password").className = "fa-solid fa-eye-low-vision";
-					}
-				});
-
-				const adminStatus = localStorage.getItem("adminStatus");
-
-				if (adminStatus) {
-					alreadySignedIn();
+				if (password.type === "password") {
+					password.type = "text";
+					document.getElementById("toggle-password").className = "fa-regular fa-eye";
+				} else {
+					password.type = "password";
+					document.getElementById("toggle-password").className = "fa-solid fa-eye-low-vision";
 				}
+			});
 
-				signInBtn.addEventListener("click", adminSignIn);
-			}
+			signInBtn.addEventListener("click", adminSignIn);
 
 		};
 
@@ -154,28 +144,12 @@ function ypProfileCard(info) {
 	});
 }
 
-function alreadySignedIn() {
-	const modal = document.getElementById("admin-modal");
-	const logOutBtnElement = `<button id="log-out-btn">Log Out</button>`;
-	modal.innerHTML = logOutBtnElement;
-
-	const logOutBtn = document.querySelector("#log-out-btn");
-
-	logOutBtn.addEventListener("click", () => {
-		adminSignedIn = false;
-		localStorage.removeItem("adminStatus");
-		window.location.reload();
-	});
-
-	adminFunctionality();
-}
-
 function adminSignIn() {
 	const usernameValue = document.getElementById("admin-username").value.toLowerCase().trim();
 	const passwordValue = document.getElementById("admin-password").value.toLowerCase().trim();
 
 	let usersInfo = {
-		username: "Ashton Martin",
+		username: "YP_Admin_User",
 		password: "vMvwST6y75cTRk"
 	};
 
@@ -183,21 +157,18 @@ function adminSignIn() {
 
 	if (usernameValue === usersInfo["username"].toLowerCase() && passwordValue === usersInfo["password"].toLowerCase()) {
 		alert(`Welcome ${usersInfo["username"]}`);
-		adminSignedIn = true;
-
-		localStorage.setItem("adminStatus", adminSignedIn);
-		alreadySignedIn();
-
+		window.location.replace("http://127.0.0.1:5500/admin-grid.html")
 	} else if (usernameValue === usersInfo["username"] && passwordValue !== usersInfo["password"]) {
 		alert("The password is incorrect");
+		passwordValue.value = "";
 	} else if (usernameValue !== usersInfo["username"] && passwordValue === usersInfo["password"]) {
 		alert("The username is incorrect");
+		usernameValue.value = "";
 	} else if (usernameValue !== usersInfo["username"] && passwordValue !== usersInfo["password"]) {
 		alert("The login info you entered is incorrect");
+		usernameValue.value = "";
+		passwordValue.value = "";
 	}
-
-	usernameValue.value = "";
-	passwordValue.value = "";
 }
 
 window.onload = () => {
