@@ -1,0 +1,29 @@
+#young-people-table {
+	border-collapse: collapse;
+	height: 100%;
+}
+
+.column-heading {
+	padding: 20px;
+}
+
+.yp-row {
+	width: 100%;
+}
+
+.id-column.hidden {
+	display: none;
+}
+
+.info-column,
+.column-heading {
+	padding: 15px;
+	text-align: center;
+	width: 450px;
+	border: 1px solid black;
+}
+
+.table-image {
+	height: 50px;
+	width: 50px;
+}

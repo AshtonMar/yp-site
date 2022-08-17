@@ -71,7 +71,7 @@ def view_yp_profiles():
     return response
 
 
-@app.route('/fetch_yp_id/<full_name>/', methods=["POST"])
+@app.route('/fetch_yp_id/<full_name>/', methods=["GET"])
 def fetch_yp_id(full_name):
     response = {}
 
@@ -79,7 +79,7 @@ def fetch_yp_id(full_name):
         connection.row_factory = create_dict
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT yp_id FROM yp_profiles WHERE full_name=" + str(full_name))
+            "SELECT yp_id FROM yp_profiles WHERE full_name=?;", (full_name,))
         connection.commit()
         yp_profiles = cursor.fetchall()
 

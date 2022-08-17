@@ -1,3 +1,13 @@
+const exitBtn = document.getElementById("exit-btn");
+
+exitBtn.addEventListener("click", () => {
+	const adminExit = confirm("You about to exit?");
+
+	if (adminExit === "ok") {
+		alert("All the changes you have made will be saved. Enjoy your day further.")
+	}
+})
+
 function fetchData() {
 	fetch(`http://127.0.0.1:5000/view_yp_profiles/`, {
 		method: "GET",
@@ -6,12 +16,14 @@ function fetchData() {
 		.then((response) => response.json())
 		.then(data => {
 			data = data.yp_data;
-			userArray = data;
+			createYpDataRow(data)
 		})
 		.catch((error) => {
 			alert(error);
 		});
 }
+
+fetchData()
 
 function getUsersId(usersName) {
 	fetch(`http://127.0.0.1:5000/fetch_yp_id/${usersName}/`, {
@@ -20,16 +32,45 @@ function getUsersId(usersName) {
 	})
 		.then((response) => response.json())
 		.then(data => {
-			return data;
+			let yp_id = data.yp_data[0]["yp_id"];
+			return yp_id;
 		})
 		.catch((error) => {
 			console.log(error);
 		});
 }
 
-let userArray = [];
+function createYpDataRow(youngPeople) {
+	const table = document.getElementById("young-people-table");
 
-fetchData();
+	youngPeople.forEach(youngPerson => {
+		const ypRow = `
+		<tr tr class="yp-row admin-control" >
+			<td class="id-column hidden">${youngPerson["yp_id"]}</td>
+			<td class="info-column"><img class="table-image" src="${youngPerson["profile_image"]}" alt="yp-image"></td>
+			<td class="info-column">${youngPerson["full_name"]}</td>
+			<td class="info-column">${youngPerson["birthday"]}</td>
+			<td class="info-column">${youngPerson["phone_number"]}</td>
+		</tr >`;
+
+		table.innerHTML += ypRow;
+	});
+
+	let adminControlRow = document.querySelectorAll(".yp-row.admin-control");
+
+	let clicks = 0
+	adminControlRow.forEach(row => {
+		row.addEventListener("click", () => {
+			clicks = clicks + 1
+			if (clicks == 2) {
+				let ypName = row.children[2].innerHTML;
+				console.log(getUsersId(ypName));
+				clicks = 0;
+			}
+		})
+	});
+}
+
 
 function adminFunctionality() {
 	const displayBody = document.querySelector("body");
