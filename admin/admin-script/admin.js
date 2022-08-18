@@ -32,8 +32,8 @@ function getUsersId(usersName) {
 	})
 		.then((response) => response.json())
 		.then(data => {
-			let yp_id = data.yp_data[0]["yp_id"];
-			return yp_id;
+			let id = data.yp_data[0]["yp_id"];
+			return id;
 		})
 		.catch((error) => {
 			console.log(error);
@@ -45,7 +45,7 @@ function createYpDataRow(youngPeople) {
 
 	youngPeople.forEach(youngPerson => {
 		const ypRow = `
-		<tr tr class="yp-row admin-control" >
+		<tr class="yp-row admin-control" >
 			<td class="id-column hidden">${youngPerson["yp_id"]}</td>
 			<td class="info-column"><img class="table-image" src="${youngPerson["profile_image"]}" alt="yp-image"></td>
 			<td class="info-column">${youngPerson["full_name"]}</td>
@@ -64,72 +64,16 @@ function createYpDataRow(youngPeople) {
 			clicks = clicks + 1
 			if (clicks == 2) {
 				let ypName = row.children[2].innerHTML;
-				console.log(getUsersId(ypName));
+				let yp_id = getUsersId(ypName);
+
+				console.log(yp_id);
 				clicks = 0;
 			}
+
+			setTimeout(() => {
+				clicks = 0
+			}, 1000);
 		})
-	});
-}
-
-
-function adminFunctionality() {
-	const displayBody = document.querySelector("body");
-	const ypCards = document.querySelectorAll(".card");
-
-	ypCards.forEach((ypCard) => {
-		ypCard.addEventListener("click", () => {
-			for (user of userArray) {
-				console.log(userArray);
-				if (user["yp_id"] == ypCard.id) {
-					const age = getAge(user["birthday"]);
-					const modalBody = `
-						<div id="admin-functions-modal">
-							<div id="admin-btn" class="admin-functions-view">
-							</div>
-							<div id="admin-options">
-								<button id="delete-user-btn" value="${user["yp_id"]}">Delete User</button>
-								<button id="user-update-btn" value="${user["yp_id"]}">Update User</button>
-							</div>
-							<div class="user-info">
-								<div class="info">
-									<img class="person-image" src="${user["profile_image"]}" alt="${user["full_name"]}-image">
-										<div class="persons-info">
-											<p class="name">${user["full_name"]}</p>
-											<p class="age">${age}</p>
-											<p class="birthday">${user["birthday"]}</p>
-											<p class="phone-number">${user["phone_number"]}</p>
-										</div>
-								</div>
-							</div>
-						</div>
-						`;
-
-					displayBody.innerHTML += modalBody;
-
-					const adminModal = document.getElementById("admin-functions-modal");
-					adminModal.style.filter = "opacity(1)";
-					adminModal.style.zIndex = "995";
-
-					const updateBtn = document.getElementById("user-update-btn");
-					const deleteBtn = document.getElementById("delete-user-btn");
-					const modalExitBtn = document.querySelector("#admin-btn.admin-functions-view");
-
-					updateBtn.addEventListener('click', () => { updateInfo(user); });
-
-					deleteBtn.addEventListener('click', () => { deleteInfo(); });
-
-					modalExitBtn.addEventListener('click', () => {
-						adminModal.style.filter = "opacity(0)";
-						adminModal.style.zIndex = "-1";
-					});
-
-				} else {
-					return;
-				}
-
-			}
-		});
-
 	});
 }
 
