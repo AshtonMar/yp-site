@@ -1,0 +1,56 @@
+#sidebar-admin-controls {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: grey;
+	height: 100vh;
+	width: 25%;
+	padding-top: 15px;
+}
+
+#sidebar-admin-controls::before {
+	content: 'Young People Database';
+	font-size: 25px;
+	padding-block: 15px;
+}
+
+#exit-btn {
+	position: relative;
+	cursor: pointer;
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+	background-image: url(../../images/admin-image.png);
+	background-size: cover;
+	margin: 10px 0px 10px 10px;
+}
+
+#record-search {
+	background-color: rgba(255, 255, 255, 0.2);
+	font-size: 18px;
+	color: white;
+	padding: 10px;
+	width: 410px;
+	border: none;
+	border-bottom: 2px solid rgb(0, 0, 0, 0.5);
+	transition: all 0.5s;
+	transition-timing-function: ease-in-out;
+}
+
+#record-search:focus {
+	outline: none;
+	border-bottom: 2px solid white;
+}
+
+#admin-control-btns {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	width: 100%;
+	padding-block: 20px;
+}
+
+#admin-control-btns button {
+	padding: 10px;
+	width: 200px;
+}

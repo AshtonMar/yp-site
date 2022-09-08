@@ -57,21 +57,25 @@ function createYpDataRow(youngPeople) {
 	});
 
 	let adminControlRow = document.querySelectorAll(".yp-row.admin-control");
+	let clicks = 0;
 
-	let clicks = 0
-	adminControlRow.forEach(row => {
-		row.addEventListener("click", () => {
+	adminControlRow.forEach(tableRow => {
+		tableRow.addEventListener("click", () => {
 			clicks = clicks + 1
+
 			if (clicks == 2) {
-				let ypName = row.children[2].innerHTML;
+				let ypName = tableRow.children[2].innerHTML;
 				let yp_id = getUsersId(ypName);
 
-				console.log(yp_id);
+				if (yp_id === undefined) {
+					yp_id = parseInt(tableRow.children[0].innerHTML);
+				}
+
 				clicks = 0;
 			}
 
 			setTimeout(() => {
-				clicks = 0
+				clicks = 0;
 			}, 1000);
 		})
 	});
