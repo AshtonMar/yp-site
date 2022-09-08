@@ -4,8 +4,8 @@
 	align-items: center;
 	background-color: grey;
 	height: 100vh;
-	width: 25%;
-	padding-top: 15px;
+	width: 20%;
+	padding: 15px;
 }
 
 #sidebar-admin-controls::before {
@@ -14,7 +14,7 @@
 	padding-block: 15px;
 }
 
-#exit-btn {
+/* #exit-btn {
 	position: relative;
 	cursor: pointer;
 	height: 40px;
@@ -23,14 +23,14 @@
 	background-image: url(../../images/admin-image.png);
 	background-size: cover;
 	margin: 10px 0px 10px 10px;
-}
+} */
 
 #record-search {
 	background-color: rgba(255, 255, 255, 0.2);
 	font-size: 18px;
 	color: white;
-	padding: 10px;
-	width: 410px;
+	padding: 5px;
+	width: 100%;
 	border: none;
 	border-bottom: 2px solid rgb(0, 0, 0, 0.5);
 	transition: all 0.5s;
@@ -42,15 +42,26 @@
 	border-bottom: 2px solid white;
 }
 
+::placeholder {
+	font-size: 15px;
+	color: rgb(0, 0, 0, 0.5);
+	transition: all 0.5s;
+	transition-timing-function: ease-in-out;
+}
+
+#record-search:focus::placeholder {
+	color: white;
+}
+
 #admin-control-btns {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-evenly;
+	justify-content: space-between;
 	width: 100%;
 	padding-block: 20px;
 }
 
 #admin-control-btns button {
 	padding: 10px;
-	width: 200px;
+	width: 45%;
 }

@@ -1,12 +1,10 @@
-button {
-	padding: 15px;
-	width: 200px;
-	margin-inline: 10px;
-}
-
 #young-people-table {
 	border-collapse: collapse;
 	height: 100%;
+}
+
+.hidden {
+	display: none;
 }
 
 .column-heading {

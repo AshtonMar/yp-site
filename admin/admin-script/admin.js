@@ -1,12 +1,12 @@
-const exitBtn = document.getElementById("exit-btn");
+// const exitBtn = document.getElementById("exit-btn");
 
-exitBtn.addEventListener("click", () => {
-	const adminExit = confirm("You about to exit?");
+// exitBtn.addEventListener("click", () => {
+// 	const adminExit = confirm("You about to exit?");
 
-	if (adminExit === "ok") {
-		alert("All the changes you have made will be saved. Enjoy your day further.")
-	}
-})
+// 	if (adminExit === "ok") {
+// 		alert("All the changes you have made will be saved. Enjoy your day further.")
+// 	}
+// })
 
 function fetchData() {
 	fetch(`http://127.0.0.1:5000/view_yp_profiles/`, {
@@ -57,28 +57,6 @@ function createYpDataRow(youngPeople) {
 	});
 
 	let adminControlRow = document.querySelectorAll(".yp-row.admin-control");
-	let clicks = 0;
-
-	adminControlRow.forEach(tableRow => {
-		tableRow.addEventListener("click", () => {
-			clicks = clicks + 1
-
-			if (clicks == 2) {
-				let ypName = tableRow.children[2].innerHTML;
-				let yp_id = getUsersId(ypName);
-
-				if (yp_id === undefined) {
-					yp_id = parseInt(tableRow.children[0].innerHTML);
-				}
-
-				clicks = 0;
-			}
-
-			setTimeout(() => {
-				clicks = 0;
-			}, 1000);
-		})
-	});
 }
 
 function updateInfo(usersInfo) {
