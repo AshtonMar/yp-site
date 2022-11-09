@@ -85,7 +85,7 @@ function createForms(form) {
 		signInBtn.disabled = false;
 
 		document.body.style = `
-    background-image: url(../images/form-images/new-user-background.jpg), linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4));`;
+    background-image: url(../images/form-images/login-background.jpg), linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4));`;
 	}
 
 	formSection.innerHTML = currentForm;
