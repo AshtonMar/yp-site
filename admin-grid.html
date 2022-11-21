@@ -7,22 +7,23 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" type="image/png" href="./images/admin-image.png" />
 	<link rel="stylesheet" href="./admin/admin-style/admin.css">
-	<link rel="stylesheet" href="./admin/admin-style/sidebar.css">
 	<link rel="stylesheet" href="./admin/admin-style/table.css">
-	<script src="https://kit.fontawesome.com/4394260882.js" crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/4394260882.js" defer crossorigin="anonymous"></script>
 	<title>YP Admin Controls</title>
 </head>
 
 <body>
-	<table id="young-people-table">
-		<tr id="heading-row">
-			<th class="column-heading"></th>
-			<th class="column-heading">Young Person Image</th>
-			<th class="column-heading">Full Name</th>
-			<th class="column-heading">Date Of Birth</th>
-			<th class="column-heading">Phone Number</th>
-		</tr>
-	</table>
+	<section id="admin-table">
+		<section id="admin-controls">
+			<i class="fas fa-solid fa-pen"></i>
+			<i class="fas fa-solid fa-trash"></i>
+			<i class="fas fa-solid fa-door-open"></i>
+		</section>
+		<div id="table-headings">
+		</div>
+		<div id="table-information">
+		</div>
+	</section>
 	<script src="./admin/admin-script/admin.js"></script>
 </body>
 

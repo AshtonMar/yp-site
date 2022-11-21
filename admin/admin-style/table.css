@@ -1,33 +1,55 @@
-#young-people-table {
-	border-collapse: collapse;
-	height: 100%;
-}
-
-.hidden {
-	display: none;
-}
-
-.column-heading {
+#admin-controls {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
 	padding: 20px;
 }
 
-.yp-row {
+#admin-controls i {
+	transform: scale(1.2, 1.2);
+	text-align: center;
+	color: white;
+	width: 200px;
+	padding: 10px;
+}
+
+#admin-table {
+	height: 100%;
 	width: 100%;
 }
 
-.id-column.hidden {
-	display: none;
+#table-headings {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 100%;
 }
 
-.info-column,
-.column-heading {
-	padding: 15px;
+.table-heading {
 	text-align: center;
-	width: 450px;
 	border: 1px solid black;
+	width: 100%;
+	padding: 20px;
 }
 
-.table-image {
-	height: 50px;
-	width: 50px;
+.table-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 100%;
+}
+
+.table-column {
+	border: 1px solid black;
+	text-align: center;
+	padding: 15px;
+	width: 100%;
+}
+
+.highlighted_row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 100%;
+	background-color: red;
 }
