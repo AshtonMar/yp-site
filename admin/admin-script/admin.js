@@ -10,7 +10,7 @@ function fetchData() {
 
 			const admin_table_created = createAdminTable(data, table_headings);
 			if (admin_table_created["created"])
-				adminControls(admin_table_created["info"]);
+				rowControls(admin_table_created["info"]);
 		})
 		.catch((error) => {
 			console.log(error);
@@ -55,27 +55,42 @@ function createAdminTable(yp_information, heading_names) {
 }
 
 
-function adminControls(yp_information) {
+function rowControls(yp_information) {
+	let row_id = 1;
+
+	let data_rows = document.getElementsByClassName("table-row");
+	for (const row of data_rows) {
+		row.addEventListener("click", () => {
+			row_id = parseInt(row.id.split("-")[2]);
+			getUser();
+		})
+	};
+
+	getUser = () => {
+		for (let user_info of yp_information) {
+			if (user_info["yp_id"] === row_id) {
+				adminControls(user_info);
+			}
+		}
+	}
+}
+
+function adminControls(userInfo) {
 	// const update_btn = document.getElementById();
 	// const delete_btn = document.getElementById();
 	// const exit_btn = document.getElementById();
 
-	const data_rows = document.getElementsByClassName("table-row");
+	console.log(userInfo);
 
-	for (const row of data_rows) {
-		row.addEventListener("click", () => {
-			let row_id = row.id.split("-");
-			let info_id = parseInt(row_id[row_id.length - 1]);
-
-			for (const yp_info of yp_information) {
-				if (info_id === yp_info["yp_id"]) {
-					row.className = "highlighted_row";
-				} else {
-					row.className = "table-row";
-				}
-			}
-
-		})
-	}
-
+	update_popup = `
+		<div class="popup">
+			<div class="popup-info">
+				<img class="user-image" src="" alt="">
+				<div class="user-info">
+					<input class="name"/>
+					<input class="age"/>
+					<input class="birthday"/>
+				</div>
+			</div>
+		</div>`
 }
