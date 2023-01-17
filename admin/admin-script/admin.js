@@ -62,30 +62,65 @@ function rowControls(yp_information) {
 	for (const row of data_rows) {
 		row.addEventListener("click", () => {
 			row_id = parseInt(row.id.split("-")[2]);
-			getUser();
+			getUser(row_id);
 		})
 	};
 
-	getUser = () => {
+	getUser = (selected_id) => {
 		for (let user_info of yp_information) {
-			if (user_info["yp_id"] === row_id) {
+			if (user_info["yp_id"] === selected_id) {
 				adminControls(user_info);
 			}
 		}
 	}
 }
 
+function highlightRow(user_rows, id) {
+	for (const user_row of user_rows) {
+		if (user_row && Number(user_row.id.split("-")[2]) === id && user_row.className.split(" ")[1] !== "highlighted") {
+			user_row.className += " highlighted";
+			return true;
+		} else
+			user_row.className = "table-row";
+	}
+}
+
 function adminControls(userInfo) {
-	// const update_btn = document.getElementById();
-	// const delete_btn = document.getElementById();
-	// const exit_btn = document.getElementById();
+	let isRowHighlighted = highlightRow(data_rows, selected_id);
+	const update_btn = document.getElementById("update_btn");
+	const delete_btn = document.getElementById("delete_btn");
+	const exit_btn = document.getElementById("exit_btn");
 
-	console.log(userInfo);
-
-	update_popup = `
+	const popup_templates = {
+		update_popup: `
 		<div class="popup">
 			<div class="popup-info">
-				<img class="user-image" src="" alt="">
+				<input autocomplete="off" id="user-image" class="input" type="file" accept="image/*" placeholder="Personal Image" />
+				<img id="output" width="100%"/>
+				<div class="user-info">
+					<input class="name"/>
+					<input class="age"/>
+					<input class="birthday"/>
+				</div>
+			</div>
+		</div>`,
+		delete_popup: `
+		<div class="popup">
+			<div class="popup-info">
+				<input autocomplete="off" id="user-image" class="input" type="file" accept="image/*" placeholder="Personal Image" />
+				<img id="output" width="100%"/>
+				<div class="user-info">
+					<input class="name"/>
+					<input class="age"/>
+					<input class="birthday"/>
+				</div>
+			</div>
+		</div>`,
+		exit_popup: `
+		<div class="popup">
+			<div class="popup-info">
+				<input autocomplete="off" id="user-image" class="input" type="file" accept="image/*" placeholder="Personal Image" />
+				<img id="output" width="100%"/>
 				<div class="user-info">
 					<input class="name"/>
 					<input class="age"/>
@@ -93,4 +128,12 @@ function adminControls(userInfo) {
 				</div>
 			</div>
 		</div>`
+	}
+
+	const body = document.getElementsByTagName("body");
+	update_btn.addEventListener('click', () => {
+		console.log("popup");
+		// body.innerHTML += popup_templates["update_popup"];
+	})
+
 }

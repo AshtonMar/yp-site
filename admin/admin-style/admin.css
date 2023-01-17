@@ -13,3 +13,11 @@ body {
 	color: white;
 	background-color: #3a3a3a;
 }
+
+.table-row.highlighted {
+	background-color: red;
+}
+
+.table-row.not-highlighted {
+	background-color: blue;
+}
