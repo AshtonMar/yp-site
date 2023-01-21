@@ -6,15 +6,31 @@ function fetchData() {
 		.then((response) => response.json())
 		.then(data => {
 			data = data.yp_data;
-			let table_headings = Object.keys(data[0]);
+			console.log(data);
+			if (data.length !== 0) {
+				let table_headings = Object.keys(data[0]);
 
-			const admin_table_created = createAdminTable(data, table_headings);
-			if (admin_table_created["created"])
-				rowControls(admin_table_created["info"]);
+				const admin_table_created = createAdminTable(data, table_headings);
+				if (admin_table_created["created"])
+					rowControls(admin_table_created["info"]);
+			} else {
+				const information_columns = document.getElementById("table-information");
+
+				information_columns.innerHTML = "NO DATA";
+
+				information_columns.style = `
+					display: flex;
+					height: 70vh;
+					justify-content: center;
+					align-items: center;
+				`
+
+				adminControls({});
+			}
 		})
-		.catch((error) => {
-			console.log(error);
-		});
+	// .catch((error) => {
+	// 	console.log(error);
+	// });
 }
 
 fetchData();
@@ -100,14 +116,14 @@ function getAge(dateString) {
 function adminControls(userInfo) {
 	const update_btn = document.getElementById("update-btn");
 	const delete_btn = document.getElementById("delete-btn");
-	const exit_btn = document.getElementById("exit-btn");
+	const exit_btn = document.getElementById("exit-button");
 
 	let age = getAge(userInfo['birthday']);
 
 	const popup_templates = {
 		update_popup: `
-		<div id="popup-background">
-			<div id="popup">
+		<div class="popup-background">
+			<div id="update_popup">
 				<div class="user-info">
 					<img id="popup-img" src="${userInfo['profile_image']}" width="100%"/>	
 					<input value="${userInfo['full_name']}" id="name-input"/>
@@ -118,15 +134,13 @@ function adminControls(userInfo) {
 			</div>
 		</div>`,
 		confirmation_popup: `
-		<div id="popup-background">
-			<div id="popup">
-				<div class="user-info">
-					<img id="popup-img" src="${userInfo['profile_image']}" width="100%"/>	
-					<input value="${userInfo['full_name']}" id="name-input"/>
-					<input disabled="true" value="${age}" id="age-input"/>
-					<input value="${userInfo['birthday']}" id="birthday-input"/>
+		<div class="popup-background">
+			<div id="confirmation_popup">
+				<div id="confirmation-text"></div>
+				<div class="confirmation-buttons">
+					<button class="confirmation_buttons" id="yes">Yes</button>
+					<button class="confirmation_buttons" id="no">No</button>
 				</div>
-				<button id="popup-update-btn">Update</button>
 			</div>
 		</div>`
 	}
@@ -158,15 +172,43 @@ function adminControls(userInfo) {
 		})
 	})
 
-	// delete_btn.addEventListener('click', () => {
-	// 	console.log("popup");
-	// 	body.innerHTML += popup_templates["confirmation_popup"];
-	// })
+	delete_btn.addEventListener('click', () => {
+		body.innerHTML += popup_templates["confirmation_popup"];
 
-	// exit_btn.addEventListener('click', () => {
-	// 	console.log("popup");
-	// 	body.innerHTML += popup_templates["confirmation_popup"];
-	// })
+		let confirmation_text = document.getElementById('confirmation-text');
+		let confirmButtons = document.querySelectorAll('.confirmation_buttons')
+
+		confirmation_text.innerHTML = `Are you sure you want to delete ${userInfo['full_name']}'s information?`
+
+		for (const btn of confirmButtons) {
+			btn.addEventListener('click', () => {
+				if (btn.id === 'yes') {
+					deleteUserData(userInfo["yp_id"]);
+				} else {
+					console.log("no");
+				}
+			})
+		}
+	})
+
+	exit_btn.addEventListener('click', () => {
+		body.innerHTML += popup_templates["confirmation_popup"];
+
+		let confirmation_text = document.getElementById('confirmation-text');
+		let confirmButtons = document.querySelectorAll('.confirmation_buttons')
+
+		confirmation_text.innerHTML = `Are you sure you want to exit?`
+
+		for (const btn of confirmButtons) {
+			btn.addEventListener('click', () => {
+				if (btn.id === 'yes') {
+					exitAdmin();
+				} else {
+					console.log("no");
+				}
+			})
+		}
+	})
 
 }
 
@@ -189,4 +231,24 @@ function updateUserData(id, new_values) {
 	} else {
 		return false;
 	}
+}
+
+
+function deleteUserData(id) {
+	fetch(`http://127.0.0.1:5000/delete_yp_profiles/${id}/`, {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+	})
+		.then((response) => response.json())
+		.then(data => {
+			console.log("Success", data);
+			return true;
+		})
+		.catch((error) => {
+			console.log("Error", error);
+		});
+}
+
+function exitAdmin() {
+	window.location.replace("http://127.0.0.1:5500/display-all.html");
 }

@@ -1,4 +1,4 @@
-#popup-background {
+.popup-background {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -9,16 +9,48 @@
 	background: linear-gradient(rgb(0, 0, 0, 0.5), rgb(0, 0, 0, 0.5));
 }
 
-#popup {
+#update_popup,
+#confirmation_popup {
+	border-radius: 5px;
+	background-color: white;
+	padding-inline: 115px;
+}
+
+#update_popup {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	height: 75vh;
 	width: 75vh;
-	border-radius: 5px;
-	background-color: white;
-	padding-inline: 115px;
+}
+
+#confirmation_popup {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 25vh;
+	width: 75vh;
+}
+
+#confirmation-text {
+	font-size: 20px;
+	color: black;
+	margin-block: 10px;
+	width: 100%;
+}
+
+.confirmation-buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.confirmation-buttons>button {
+	padding: 10px;
+	width: 200px;
 }
 
 .user-info {
