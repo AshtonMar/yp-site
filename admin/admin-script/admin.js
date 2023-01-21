@@ -69,6 +69,7 @@ function rowControls(yp_information) {
 	getUser = (selected_id) => {
 		for (let user_info of yp_information) {
 			if (user_info["yp_id"] === selected_id) {
+				highlightRow(data_rows, selected_id)
 				adminControls(user_info);
 			}
 		}
@@ -79,61 +80,113 @@ function highlightRow(user_rows, id) {
 	for (const user_row of user_rows) {
 		if (user_row && Number(user_row.id.split("-")[2]) === id && user_row.className.split(" ")[1] !== "highlighted") {
 			user_row.className += " highlighted";
-			return true;
-		} else
+		} else {
 			user_row.className = "table-row";
+		}
 	}
 }
 
+function getAge(dateString) {
+	let today = new Date();
+	let birthDate = new Date(dateString);
+	let age = today.getFullYear() - birthDate.getFullYear();
+	let month = today.getMonth() - birthDate.getMonth();
+	if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+		age--;
+	}
+	return age;
+}
+
 function adminControls(userInfo) {
-	let isRowHighlighted = highlightRow(data_rows, selected_id);
-	const update_btn = document.getElementById("update_btn");
-	const delete_btn = document.getElementById("delete_btn");
-	const exit_btn = document.getElementById("exit_btn");
+	const update_btn = document.getElementById("update-btn");
+	const delete_btn = document.getElementById("delete-btn");
+	const exit_btn = document.getElementById("exit-btn");
+
+	let age = getAge(userInfo['birthday']);
 
 	const popup_templates = {
 		update_popup: `
-		<div class="popup">
-			<div class="popup-info">
-				<input autocomplete="off" id="user-image" class="input" type="file" accept="image/*" placeholder="Personal Image" />
-				<img id="output" width="100%"/>
+		<div id="popup-background">
+			<div id="popup">
 				<div class="user-info">
-					<input class="name"/>
-					<input class="age"/>
-					<input class="birthday"/>
+					<img id="popup-img" src="${userInfo['profile_image']}" width="100%"/>	
+					<input value="${userInfo['full_name']}" id="name-input"/>
+					<input disabled="true" value="${age}" id="age-input"/>
+					<input value="${userInfo['birthday']}" id="birthday-input"/>
 				</div>
+				<button id="popup-update-btn">Update</button>
 			</div>
 		</div>`,
-		delete_popup: `
-		<div class="popup">
-			<div class="popup-info">
-				<input autocomplete="off" id="user-image" class="input" type="file" accept="image/*" placeholder="Personal Image" />
-				<img id="output" width="100%"/>
+		confirmation_popup: `
+		<div id="popup-background">
+			<div id="popup">
 				<div class="user-info">
-					<input class="name"/>
-					<input class="age"/>
-					<input class="birthday"/>
+					<img id="popup-img" src="${userInfo['profile_image']}" width="100%"/>	
+					<input value="${userInfo['full_name']}" id="name-input"/>
+					<input disabled="true" value="${age}" id="age-input"/>
+					<input value="${userInfo['birthday']}" id="birthday-input"/>
 				</div>
-			</div>
-		</div>`,
-		exit_popup: `
-		<div class="popup">
-			<div class="popup-info">
-				<input autocomplete="off" id="user-image" class="input" type="file" accept="image/*" placeholder="Personal Image" />
-				<img id="output" width="100%"/>
-				<div class="user-info">
-					<input class="name"/>
-					<input class="age"/>
-					<input class="birthday"/>
-				</div>
+				<button id="popup-update-btn">Update</button>
 			</div>
 		</div>`
 	}
 
-	const body = document.getElementsByTagName("body");
+	const body = document.getElementsByTagName("body")[0];
 	update_btn.addEventListener('click', () => {
-		console.log("popup");
-		// body.innerHTML += popup_templates["update_popup"];
+		body.innerHTML += popup_templates["update_popup"];
+		const update = document.getElementById("popup-update-btn");
+
+		update.addEventListener("click", () => {
+			const yp_name = document.getElementById("name-input").value;
+			const yp_birthday = document.getElementById("birthday-input").value;
+
+			let user_values = [yp_name, yp_birthday];
+			let updated_values = {};
+
+			if (user_values[0] !== userInfo['full_name']) {
+				updated_values['full_name'] = user_values[0];
+			}
+
+			if (user_values[1] !== userInfo['birthday']) {
+				updated_values['birthday'] = user_values[1];
+			}
+
+			if (updateUserData(userInfo["yp_id"], updated_values))
+				console.log("Success");
+			else
+				console.log("Failure");
+		})
 	})
 
+	// delete_btn.addEventListener('click', () => {
+	// 	console.log("popup");
+	// 	body.innerHTML += popup_templates["confirmation_popup"];
+	// })
+
+	// exit_btn.addEventListener('click', () => {
+	// 	console.log("popup");
+	// 	body.innerHTML += popup_templates["confirmation_popup"];
+	// })
+
+}
+
+function updateUserData(id, new_values) {
+	if (Object.keys(new_values).length !== 0) {
+		console.log("new");
+		fetch(`http://127.0.0.1:5000/edit_yp_profiles/${id}/`, {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(new_values)
+		})
+			.then((response) => response.json())
+			.then(data => {
+				console.log("Success", data);
+				return true;
+			})
+			.catch((error) => {
+				console.log("Error", error);
+			});
+	} else {
+		return false;
+	}
 }
