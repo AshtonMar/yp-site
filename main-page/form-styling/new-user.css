@@ -1,42 +1,42 @@
 /* Form */
-#new-user-form {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  width: 420px;
+#signup-form {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 420px;
 }
 
 .birthdate-format {
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: row;
-  width: 100%;
-  padding: 20px;
+	display: flex;
+	justify-content: space-evenly;
+	flex-direction: row;
+	width: 100%;
+	padding: 20px;
 }
 
 .birthdate-format-choice {
-  font-size: 20px;
-  color: white;
+	font-size: 20px;
+	color: white;
 }
 
 .birthdate-entry {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
-  width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: row;
+	width: 100%;
 }
 
 .date-input {
-  width: 100px;
+	width: 100px;
 }
 
 .divider {
-  font-size: 50px;
-  color: white;
+	font-size: 50px;
+	color: white;
 }
 
 #user-submit-btn {
-  width: 420px;
-  margin-inline: 0px;
+	width: 420px;
+	margin-inline: 0px;
 }

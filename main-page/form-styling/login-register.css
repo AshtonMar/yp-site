@@ -63,13 +63,13 @@ input:focus::placeholder {
 	color: white;
 }
 
-#form-section {
+#form-display {
 	display: flex;
 	justify-content: center;
 	width: 440px;
 }
 
-#sign-up-in-choice {
+#user-forms {
 	display: flex;
 	justify-content: center;
 	flex-direction: row;
