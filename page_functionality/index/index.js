@@ -19,7 +19,7 @@ function createForms(form) {
 			<form id='signin-form' class='form' action='#'>
 				<input required autocomplete='off' id='signin-username' type='text' placeholder='Username' />
 				<div class='view-password'>
-					<input required autocomplete='off' id='signup-password' type='password' placeholder='Password' />
+					<input required autocomplete='off' id='signin-password' type='password' placeholder='Password' />
 					<i id='toggle-password' class='fa-solid fa-eye-low-vision'></i>
 				</div>
 				<button id='admin-submit-btn' type='submit' value='submit'>Sign In</button>
@@ -68,7 +68,7 @@ function createForms(form) {
 		document.getElementById('signin-form').addEventListener('submit', userInfo);
 
 		document.getElementById('toggle-password').addEventListener('click', () => {
-			let password = document.getElementById('signup-password');
+			let password = document.getElementById('signin-password');
 
 			if (password.type === 'password') {
 				password.type = 'text';
@@ -80,7 +80,6 @@ function createForms(form) {
 
 			}
 		});
-
 	} else {
 		let image_input = document.getElementById('user-image');
 		let image = document.getElementById('output');
@@ -108,9 +107,10 @@ function createForms(form) {
 
 function userSignIn() {
 	let username = document.getElementById('signin-username');
-	let login_password = document.getElementById('signup-password');
+	let login_password = document.getElementById('signin-password');
 
-	const password = 'DEw0DPc6u7_2';
+	// const password = 'DEw0DPc6u7_2';
+	const password = 'D';
 	lowercase_username = username.value.toLowerCase().trim();
 
 	if (usernames.includes(lowercase_username) && password === login_password.value) {
