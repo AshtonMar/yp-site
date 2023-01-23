@@ -1,28 +1,27 @@
+#user-forms {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	width: 420px;
+}
+
+#signin-btn,
+#signup-btn {
+	width: 45%;
+}
+
+/* Form */
 #form-display {
 	display: flex;
 	justify-content: center;
 	width: 440px;
 }
 
-#user-forms {
-	display: flex;
-	justify-content: center;
-	flex-direction: row;
-	width: 100%;
-	padding: 30px;
-}
-
-/* Form */
-#signin-form {
+.form {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
 	width: 420px;
-}
-
-#admin-submit-btn {
-	width: 420px;
-	margin-inline: 0px;
 }
 
 .view-password {
@@ -53,14 +52,6 @@
 	color: rgb(255, 255, 255, 0.9);
 }
 
-/* Form */
-#signup-form {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	width: 420px;
-}
-
 .birthdate-format {
 	display: flex;
 	justify-content: space-evenly;
@@ -89,6 +80,11 @@
 .divider {
 	font-size: 50px;
 	color: white;
+}
+
+#admin-submit-btn {
+	width: 420px;
+	margin-inline: 0px;
 }
 
 #user-submit-btn {

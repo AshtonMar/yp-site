@@ -17,28 +17,28 @@ function createForms(form) {
 	const forms = {
 		adminForm: `
 			<form id="signin-form" class="form" action="#">
-				<input required autocomplete="off" id="signin-username" class="input" type="text" placeholder="Username" />
+				<input required autocomplete="off" id="signin-username" type="text" placeholder="Username" />
 				<div class="view-password">
-					<input required autocomplete="off" id="signup-password" class="input" type="password" placeholder="Password" />
+					<input required autocomplete="off" id="signup-password" type="password" placeholder="Password" />
 					<i id="toggle-password" class="fa-solid fa-eye-low-vision"></i>
 				</div>
 				<button id="admin-submit-btn" type="submit" value="submit">Sign In</button>
 			</form>
 		`,
 		registrationForm: `
-			<form action="#" id="signup-form" class="form">
-			<input autocomplete="off" id="user-fullname" class="input" required type="text" placeholder="Full Name" />
-			<input autocomplete="off" id="user-phone-number" class="input" required type="number" max-length="10" placeholder="Phone Number" />
-			<input autocomplete="off" id="user-image" class="input" type="file" accept="image/*" placeholder="Personal Image" />
-			<img id="output" width="100%"/>
-			<div class="birthdate-entry">
-				<input autocomplete="off" id="month" class="date-input input" required type="number" placeholder="mm" maxlength="2" />
-				<label class="divider">/</label>
-				<input autocomplete="off" id="day" class="date-input input" required type="number" placeholder="dd" maxlength="2" />
-				<label class="divider">/</label>
-				<input autocomplete="off" id="year" class="date-input input" required type="number" placeholder="yyyy" maxlength="4" />
-			</div>
-			<button id="user-submit-btn">Register User</button>
+			<form id="signup-form" class="form" action="#">
+				<input autocomplete="off" id="user-fullname" required type="text" placeholder="Full Name" />
+				<input autocomplete="off" id="user-phone-number" required type="number" max-length="10" placeholder="Phone Number" />
+				<input autocomplete="off" id="user-image" type="file" accept="image/*" placeholder="Personal Image" />
+				<img id="output" width="100%"/>
+				<div class="birthdate-entry">
+					<input autocomplete="off" id="month" class="date-input input" required type="number" placeholder="mm" maxlength="2" />
+					<label class="divider">/</label>
+					<input autocomplete="off" id="day" class="date-input input" required type="number" placeholder="dd" maxlength="2" />
+					<label class="divider">/</label>
+					<input autocomplete="off" id="year" class="date-input input" required type="number" placeholder="yyyy" maxlength="4" />
+				</div>
+				<button id="user-submit-btn">Register User</button>
 			</form>
 		`
 	}
@@ -50,7 +50,8 @@ function createForms(form) {
 		signUpBtn.disabled = false;
 
 		document.body.style = `
-			background-image: url("../images/form-images/login-background.jpg"), linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4));`;
+			background-size: cover;
+			background-image: url("../global_use/global_images/background.png"), linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4));`;
 	} else if (form === "signup-form") {
 		currentForm = forms["registrationForm"];
 
@@ -58,7 +59,8 @@ function createForms(form) {
 		signInBtn.disabled = false;
 
 		document.body.style = `
-			background-image: url(../images/form-images/login-background.jpg), linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4));`;
+			background-size: cover;
+			background-image: url(../global_use/global_images/background.png), linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4));`;
 	}
 
 	formSection.innerHTML = currentForm;

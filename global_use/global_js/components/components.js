@@ -1,4 +1,5 @@
 // Preloader's JS of the site
+let loader = document.getElementById("preloader");
 let timeout = 0;
 function debounce(func, delay) {
 	return function () {
@@ -13,12 +14,10 @@ function debounce(func, delay) {
 }
 
 let removeLoaderComplete = () => {
-	let loader = document.querySelector("#preloader");
 	loader.style.display = "none";
 };
 
 function removeLoader() {
-	let loader = document.querySelector("#preloader");
 	loader.style.filter = "opacity(0.5)";
 	loader.style.filter = "opacity(0)";
 	loader.style.height = "100vh";
@@ -34,7 +33,9 @@ window.addEventListener("load", debounce(removeLoader, 1000));
 function addFooter() {
 	let footer = `<footer id="footer">YoungPeople Website Created by Ashston Martin</footer>`;
 
-	document.body.innerHTML += footer;
+	console.log(document.getElementsByTagName("body"));
+
+	document.getElementsByTagName("body").innerHTML += footer;
 }
 
 addFooter();

@@ -22,9 +22,9 @@ class searchNavigation {
 
 			const adminForm = `
 				<form id="admin-form" class="form" action="#">
-					<input required autocomplete="off" id="admin-username" class="input" type="text" placeholder="Username" />
+					<input required autocomplete="off" id="admin-username" type="text" placeholder="Username" />
 					<div class="view-password">
-						<input required autocomplete="off" id="admin-password" class="input" type="password"
+						<input required autocomplete="off" id="admin-password" type="password"
 							placeholder="Password" />
 						<i id="toggle-password" class="fa-solid fa-eye-low-vision"></i>
 					</div>
