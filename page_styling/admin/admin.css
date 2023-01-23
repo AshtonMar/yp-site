@@ -1,0 +1,154 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: sans-serif;
+}
+
+body {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 100%;
+	color: white;
+	background-color: #3a3a3a;
+}
+
+.table-row.highlighted {
+	background-color: red;
+}
+
+.table-row.not-highlighted {
+	background-color: blue;
+}
+
+.popup-background {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	height: 100vh;
+	width: 100%;
+	z-index: 999;
+	background: linear-gradient(rgb(0, 0, 0, 0.5), rgb(0, 0, 0, 0.5));
+}
+
+#update_popup,
+#confirmation_popup {
+	border-radius: 5px;
+	background-color: white;
+	padding-inline: 115px;
+}
+
+#update_popup {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 75vh;
+	width: 75vh;
+}
+
+#confirmation_popup {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 25vh;
+	width: 75vh;
+}
+
+#confirmation-text {
+	font-size: 20px;
+	color: black;
+	margin-block: 10px;
+	width: 100%;
+}
+
+.confirmation-buttons {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.confirmation-buttons>button {
+	padding: 10px;
+	width: 200px;
+}
+
+.user-info {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.user-info>input {
+	width: 100%;
+	margin-block: 20px;
+	padding: 5px;
+}
+
+.user-info>img {
+	width: 100%;
+	height: 200px;
+}
+
+#admin-controls {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	padding: 20px;
+}
+
+#admin-controls>i {
+	cursor: pointer;
+	transform: scale(1.2, 1.2);
+	text-align: center;
+	color: white;
+	width: 10px;
+	padding: 10px;
+}
+
+#admin-table {
+	height: 100%;
+	width: 100%;
+}
+
+#table-headings {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 100%;
+}
+
+.table-heading {
+	text-align: center;
+	border: 1px solid black;
+	width: 100%;
+	padding: 20px;
+}
+
+.table-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 100%;
+	cursor: pointer;
+}
+
+.table-column {
+	border: 1px solid black;
+	text-align: center;
+	padding: 15px;
+	width: 100%;
+}
+
+.highlighted_row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 100%;
+	background-color: red;
+}
