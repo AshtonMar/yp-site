@@ -58,6 +58,7 @@ button {
 }
 
 input:focus {
+	color: white;
 	outline: none;
 	border-bottom: 1px solid white;
 }
