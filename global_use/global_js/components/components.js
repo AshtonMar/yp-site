@@ -30,12 +30,10 @@ function removeLoader() {
 
 window.addEventListener("load", debounce(removeLoader, 1000));
 
-function addFooter() {
-	let footer = `<footer id="footer">YoungPeople Website Created by Ashston Martin</footer>`;
+// function addFooter() {
+// 	let footer = `<footer id="footer">YoungPeople Website Created by Ashston Martin</footer>`;
 
-	console.log(document.getElementsByTagName("body"));
+// 	document.getElementById("body").innerHTML += footer;
+// }
 
-	document.getElementsByTagName("body").innerHTML += footer;
-}
-
-addFooter();
+// addFooter();

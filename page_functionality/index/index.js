@@ -50,8 +50,11 @@ function createForms(form) {
 		signUpBtn.disabled = false;
 
 		document.body.style = `
+			background-image: url("../../global_use/global_images/background.png"), linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+			background-blend-mode: overlay;
+			background-position: center;
 			background-size: cover;
-			background-image: url("../global_use/global_images/background.png"), linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4));`;
+		`;
 	} else if (form === "signup-form") {
 		currentForm = forms["registrationForm"];
 
@@ -59,8 +62,11 @@ function createForms(form) {
 		signInBtn.disabled = false;
 
 		document.body.style = `
+			background-image: url("../../global_use/global_images/background.png"), linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+			background-blend-mode: overlay;
+			background-position: center;
 			background-size: cover;
-			background-image: url(../global_use/global_images/background.png), linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4));`;
+		`;
 	}
 
 	formSection.innerHTML = currentForm;

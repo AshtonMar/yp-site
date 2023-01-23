@@ -16,7 +16,6 @@ body {
 	align-items: center;
 	height: 100vh;
 	width: 100%;
-	background-color: black;
 }
 
 ::-webkit-scrollbar {
@@ -47,13 +46,15 @@ button {
 
 input {
 	border: none;
+	outline: none;
 	border-bottom: 1px solid rgb(0, 0, 0, 0.5);
 	background-color: rgba(255, 255, 255, 0.2);
 }
 
 button {
-	border: 1px solid rgb(0, 0, 0, 0.5);
-	background-color: rgba(255, 255, 255, 0.2);
+	border: none;
+	opacity: 1;
+	background-color: white;
 }
 
 input:focus {
@@ -61,10 +62,18 @@ input:focus {
 	border-bottom: 1px solid white;
 }
 
+button:disabled {
+	border: none;
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+button:disabled:hover {
+	color: black;
+	cursor: default;
+}
+
 button:hover {
-	color: white;
-	outline: none;
-	border: 1px solid white;
+	cursor: pointer;
 }
 
 ::placeholder {
