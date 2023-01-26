@@ -178,6 +178,73 @@ input:focus::placeholder {
 	}
 }
 
+/* Form Components */
+.form {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 420px;
+}
+
+.view-password {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	width: 100%;
+}
+
+#toggle-password {
+	position: absolute;
+	margin-top: 25px;
+	margin-left: auto;
+	margin-right: auto;
+	left: 350px;
+	right: 0;
+	text-align: center;
+	height: 60px;
+	width: 60px;
+	cursor: pointer;
+	font-size: 30px;
+}
+
+.fa-eye-low-vision {
+	color: rgb(0, 0, 0, 0.5);
+}
+
+.fa-eye {
+	color: rgb(255, 255, 255, 0.9);
+}
+
+.birthdate-format {
+	display: flex;
+	justify-content: space-evenly;
+	flex-direction: row;
+	width: 100%;
+	padding: 20px;
+}
+
+.birthdate-format-choice {
+	font-size: 20px;
+	color: white;
+}
+
+.birthdate-entry {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-direction: row;
+	width: 100%;
+}
+
+.date-input {
+	width: 100px;
+}
+
+.divider {
+	font-size: 50px;
+	color: white;
+}
+
 /* Footer */
 #footer {
 	display: flex;

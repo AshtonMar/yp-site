@@ -1,40 +1,3 @@
-function fetchData() {
-	fetch(`http://127.0.0.1:5000/view_yp_profiles/`, {
-		method: "GET",
-		headers: { "Content-Type": "application/json" },
-	})
-		.then((response) => response.json())
-		.then(data => {
-			data = data.yp_data;
-			console.log(data);
-			if (data.length !== 0) {
-				let table_headings = Object.keys(data[0]);
-
-				const admin_table_created = createAdminTable(data, table_headings);
-				if (admin_table_created["created"])
-					rowControls(admin_table_created["info"]);
-			} else {
-				const information_columns = document.getElementById("table-information");
-
-				information_columns.innerHTML = "NO DATA";
-
-				information_columns.style = `
-					display: flex;
-					height: 70vh;
-					justify-content: center;
-					align-items: center;
-				`
-
-				adminControls({});
-			}
-		})
-	// .catch((error) => {
-	// 	console.log(error);
-	// });
-}
-
-fetchData();
-
 function createAdminTable(yp_information, heading_names) {
 
 	if (yp_information == undefined || heading_names == undefined)
@@ -100,17 +63,6 @@ function highlightRow(user_rows, id) {
 			user_row.className = "table-row";
 		}
 	}
-}
-
-function getAge(dateString) {
-	let today = new Date();
-	let birthDate = new Date(dateString);
-	let age = today.getFullYear() - birthDate.getFullYear();
-	let month = today.getMonth() - birthDate.getMonth();
-	if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
-		age--;
-	}
-	return age;
 }
 
 function adminControls(userInfo) {
@@ -210,45 +162,4 @@ function adminControls(userInfo) {
 		}
 	})
 
-}
-
-function updateUserData(id, new_values) {
-	if (Object.keys(new_values).length !== 0) {
-		console.log("new");
-		fetch(`http://127.0.0.1:5000/edit_yp_profiles/${id}/`, {
-			method: "PUT",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(new_values)
-		})
-			.then((response) => response.json())
-			.then(data => {
-				console.log("Success", data);
-				return true;
-			})
-			.catch((error) => {
-				console.log("Error", error);
-			});
-	} else {
-		return false;
-	}
-}
-
-
-function deleteUserData(id) {
-	fetch(`http://127.0.0.1:5000/delete_yp_profiles/${id}/`, {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-	})
-		.then((response) => response.json())
-		.then(data => {
-			console.log("Success", data);
-			return true;
-		})
-		.catch((error) => {
-			console.log("Error", error);
-		});
-}
-
-function exitAdmin() {
-	window.location.replace("http://127.0.0.1:5500/display-all.html");
 }

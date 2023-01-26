@@ -1,15 +1,19 @@
-let users = [];
+window.onload = () => {
+	let users = [];
+	new searchNavigation();
+	userInfo();
+};
 
 class searchNavigation {
-	searchInput;
-	modalBtn;
+	search_input;
+	modal_btn;
 
 	constructor() {
 		const modal = document.getElementById("admin-modal");
-		this.searchInput = document.querySelector("[data-search]");
-		this.modalBtn = document.getElementById("admin-btn");
+		this.search_input = document.getElementById("search-bar");
+		this.modal_btn = document.getElementById("admin-btn");
 
-		this.modalBtn.onclick = function () {
+		this.modal_btn.onclick = function () {
 			if (modal.style.filter == "opacity(1)") {
 				modal.style = `
 				filter: opacity(0);
@@ -20,46 +24,32 @@ class searchNavigation {
 				z-index: 985;`;
 			}
 
-			const adminForm = `
-				<form id="admin-form" class="form" action="#">
-					<input required autocomplete="off" id="admin-username" type="text" placeholder="Username" />
-					<div class="view-password">
-						<input required autocomplete="off" id="admin-password" type="password"
-							placeholder="Password" />
-						<i id="toggle-password" class="fa-solid fa-eye-low-vision"></i>
+			const admin_form = `
+				<form id='signin-form' class='form' action='#'>
+					<input required autocomplete='off' id='signin-username' type='text' placeholder='Username' />
+					<div class='view-password'>
+						<input required autocomplete='off' id='signin-password' type='password' placeholder='Password' />
+						<i id='toggle-password' class='fa-solid fa-eye-low-vision'></i>
 					</div>
-					<button id="sign-in-btn">Sign In</button>
-				</form>`;
+					<button id='signin-btn' type='submit' value='submit'>Sign In</button>
+				</form>
+			`;
 
-			modal.innerHTML = adminForm;
+			modal.innerHTML = admin_form;
 
-			const signInBtn = document.getElementById("sign-in-btn");
-			const togglepassWord = document.getElementById("toggle-password");
+			const signin_btn = document.getElementById("signin-btn");
+			document.getElementById("toggle-password").onclick = togglePassword();
 
-			togglepassWord.addEventListener("click", () => {
-				let password = document.querySelector("#admin-password");
-
-				if (password.type === "password") {
-					password.type = "text";
-					document.getElementById("toggle-password").className = "fa-regular fa-eye";
-				} else {
-					password.type = "password";
-					document.getElementById("toggle-password").className = "fa-solid fa-eye-low-vision";
-				}
-			});
-
-			signInBtn.addEventListener("click", adminSignIn);
-
+			signin_btn.addEventListener("click", adminSignIn);
 		};
 
-		this.searchInput.addEventListener("input", (e) => {
+		this.search_input.addEventListener("input", (e) => {
 			const value = e.target.value.toLowerCase();
 
 			users.forEach(user => {
-				let age = String(user["age"]);
-				let birthDay = user["birthday"];
+				let birthday = user["birthday"];
 
-				const isVisible = user["name"].toLowerCase().includes(value) || age.includes(value) || birthDay.includes(value);
+				const isVisible = user["name"].toLowerCase().includes(value) || birthday.includes(value);
 				user["element"].classList.toggle("hide", !isVisible);
 
 			});
@@ -67,111 +57,26 @@ class searchNavigation {
 	}
 };
 
-function userInfo() {
-	fetch(`http://127.0.0.1:5000/view_yp_profiles/`, {
-		method: "GET",
-		headers: { "Content-Type": "application/json" },
-	})
-		.then((response) => response.json())
-		.then(data => {
-			data = data.yp_data;
-
-			let ypDataArray = [];
-
-			data.forEach(user => {
-				let ypAge = getAge(user["birthday"]);
-				let ypData = {
-					full_name: user["full_name"],
-					personal_image: user["profile_image"],
-					age: ypAge,
-					birthday: user["birthday"],
-					phone_number: user["phone_number"]
-				};
-
-				ypDataArray.push(ypData);
-
-			});
-			window.localStorage.setItem("ypData", JSON.stringify(ypDataArray));
-
-
-			ypProfileCard(data);
-
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-}
-
-function getAge(birthdayDate) {
-	let today = new Date();
-	let birthDate = new Date(birthdayDate);
-
-	let age = today.getFullYear() - birthDate.getFullYear();
-	let m = today.getMonth() - birthDate.getMonth();
-
-	if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-		age--;
-	}
-
-	return age;
-}
-
 function ypProfileCard(info) {
-	const ypCardTemplate = document.querySelector("[data-user-template]");
-	const ypCardContainer = document.querySelector("#card-view");
+	const card_template = document.querySelector("[data-user-template]");
+	const card_container = document.querySelector("#card-view");
 
 	users = info.map(user => {
-		const card = ypCardTemplate.content.cloneNode(true).children[0];
+		const card = card_template.content.cloneNode(true).children[0];
 
 		card.id = user["yp_id"];
 
 		const body = card.querySelector("[data-body]");
 		const image = body.querySelector("[data-image]");
 		const name = body.querySelector("[data-name]");
-		const age = body.querySelector("[data-age]");
-		const birthDay = body.querySelector("[data-birthday]");
-
-		const ypAge = getAge(user["birthday"]);
+		const birthday = body.querySelector("[data-birthday]");
 
 		image.src = user["profile_image"];
 		name.textContent = user["full_name"];
-		age.textContent = ypAge;
-		birthDay.textContent = user["birthday"];
+		birthday.textContent = user["birthday"];
 
-		ypCardContainer.append(card);
+		card_container.append(card);
 
-		return { element: card, name: user["full_name"], age: ypAge, birthday: user["birthday"] };
+		return { element: card, name: user["full_name"], birthday: user["birthday"] };
 	});
 }
-
-function adminSignIn() {
-	const usernameValue = document.getElementById("admin-username").value.toLowerCase().trim();
-	const passwordValue = document.getElementById("admin-password").value.toLowerCase().trim();
-
-	let usersInfo = {
-		username: "YP_Admin_User",
-		password: "vMvwST6y75cTRk"
-	};
-
-	JSON.stringify(usersInfo);
-
-	if (usernameValue === usersInfo["username"].toLowerCase() && passwordValue === usersInfo["password"].toLowerCase()) {
-		alert(`Welcome ${usersInfo["username"]}`);
-		window.location.replace("http://127.0.0.1:5500/admin-grid.html")
-	} else if (usernameValue === usersInfo["username"] && passwordValue !== usersInfo["password"]) {
-		alert("The password is incorrect");
-		passwordValue.value = "";
-	} else if (usernameValue !== usersInfo["username"] && passwordValue === usersInfo["password"]) {
-		alert("The username is incorrect");
-		usernameValue.value = "";
-	} else if (usernameValue !== usersInfo["username"] && passwordValue !== usersInfo["password"]) {
-		alert("The login info you entered is incorrect");
-		usernameValue.value = "";
-		passwordValue.value = "";
-	}
-}
-
-window.onload = () => {
-	userInfo();
-	const search = new searchNavigation();
-};

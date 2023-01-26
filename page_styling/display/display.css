@@ -1,39 +1,45 @@
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: sans-serif;
-	font-weight: 100;
-	scroll-behavior: smooth;
-	overflow-x: hidden;
-}
-
 body {
-	height: 100vh;
+	display: block;
+	background-image: url(../../global_use/global_images/background.png);
 	background-size: cover;
-	background-position: center;
-	background-blend-mode: overlay;
-	background-image: url(../../images/display-images/All.jpg);
-	width: 100%;
 }
 
+/* Admin Login */
 .admin-view {
+	position: absolute;
+	right: 50px;
+	top: 25px;
 	cursor: pointer;
 	height: 50px;
 	width: 50px;
-	padding: 10px;
-	background-image: url(../../images/yp-image.png);
+	background-image: url(../../global_use/global_images/admin.png);
 	background-size: cover;
-	border: none;
 	border-radius: 100%;
-	position: absolute;
-	margin: 15px 20px;
-	right: 0;
 	z-index: 990;
+}
+
+#admin-modal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+	flex-direction: column;
+	bottom: 0;
+	top: 0;
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.8);
+	margin: auto;
+	padding: 20px;
+	z-index: -1;
+	filter: opacity(0);
+	transition: all 0.5s;
+	transition-timing-function: ease-in-out;
 }
 
 #search-area {
 	display: flex;
+	flex-direction: row;
 	align-items: center;
 	justify-content: center;
 	background-color: rgba(0, 0, 0, 0.2);
@@ -57,13 +63,6 @@ body {
 	border-bottom: 2px solid white;
 }
 
-::placeholder {
-	font-size: 15px;
-	color: rgb(0, 0, 0, 0.5);
-	transition: all 0.5s;
-	transition-timing-function: ease-in-out;
-}
-
 #search-bar:focus::placeholder {
 	color: white;
 }
@@ -73,27 +72,6 @@ body {
 	justify-content: center;
 	flex-direction: column;
 	width: 100%;
-	margin-bottom: 100px;
-}
-
-/* The Modal (background) */
-#admin-modal {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100%;
-	width: 100%;
-	flex-direction: column;
-	bottom: 0;
-	top: 0;
-	position: absolute;
-	background-color: rgba(0, 0, 0, 0.8);
-	margin: auto;
-	padding: 20px;
-	z-index: -1;
-	filter: opacity(0);
-	transition: all 0.5s;
-	transition-timing-function: ease-in-out;
 }
 
 /* Form */
@@ -107,74 +85,6 @@ body {
 #admin-submit-btn {
 	width: 420px;
 	margin-inline: 0px;
-}
-
-.view-password {
-	display: flex;
-	align-items: center;
-	flex-direction: row;
-}
-
-#toggle-password {
-	position: absolute;
-	margin-top: 25px;
-	margin-left: auto;
-	margin-right: auto;
-	left: 350px;
-	right: 0;
-	text-align: center;
-	height: 60px;
-	width: 70px;
-	cursor: pointer;
-	font-size: 30px;
-}
-
-.fa-eye-low-vision {
-	color: rgb(0, 0, 0, 0.5);
-}
-
-.fa-eye {
-	color: rgb(255, 255, 255, 0.9);
-}
-
-#home-button {
-	font-size: 50px;
-	color: rgb(0, 0, 0, 0.5);
-}
-
-button {
-	padding: 15px;
-	width: 100%;
-	margin-inline: 10px;
-}
-
-input {
-	color: white;
-	margin-block: 15px;
-	width: 420px;
-	border: none;
-	font-size: 18px;
-	padding: 20px;
-	background-color: rgba(255, 255, 255, 0.2);
-	border-bottom: 2px solid rgb(0, 0, 0, 0.5);
-	transition: all 0.5s;
-	transition-timing-function: ease-in-out;
-}
-
-input:focus {
-	outline: none;
-	border-bottom: 2px solid white;
-}
-
-::placeholder {
-	font-size: 15px;
-	color: rgb(0, 0, 0, 0.5);
-	transition: all 0.5s;
-	transition-timing-function: ease-in-out;
-}
-
-input:focus::placeholder {
-	color: white;
 }
 
 #card-view {

@@ -1,4 +1,3 @@
-let usernames = [];
 let signin_btn = document.getElementById('signin-btn');
 let signup_btn = document.getElementById('signup-btn');
 
@@ -11,6 +10,7 @@ signup_btn.addEventListener('click', () => {
 });
 
 function createForms(form) {
+	getUserObject();
 	let form_section = document.getElementById('form-display');
 	let current_form = "";
 
@@ -65,21 +65,8 @@ function createForms(form) {
 	form_section.innerHTML = current_form;
 
 	if (current_form === forms['admin_form']) {
-		document.getElementById('signin-form').addEventListener('submit', userInfo);
-
-		document.getElementById('toggle-password').addEventListener('click', () => {
-			let password = document.getElementById('signin-password');
-
-			if (password.type === 'password') {
-				password.type = 'text';
-				document.getElementById('toggle-password').className = 'fa-regular fa-eye';
-
-			} else {
-				password.type = 'password';
-				document.getElementById('toggle-password').className = 'fa-solid fa-eye-low-vision';
-
-			}
-		});
+		document.getElementById('signin-form').addEventListener('submit', () => signIn('user'));
+		document.getElementById("toggle-password").onclick = togglePassword();
 	} else {
 		let image_input = document.getElementById('user-image');
 		let image = document.getElementById('output');
@@ -101,144 +88,8 @@ function createForms(form) {
 			}
 		});
 
-		document.getElementById('user-submit-btn').addEventListener('click', newUserInfo);
+		document.getElementById('user-submit-btn').addEventListener('click', signUp);
 	}
-}
-
-function userSignIn() {
-	let username = document.getElementById('signin-username');
-	let login_password = document.getElementById('signin-password');
-
-	// const password = 'DEw0DPc6u7_2';
-	const password = 'D';
-	lowercase_username = username.value.toLowerCase().trim();
-
-	if (usernames.includes(lowercase_username) && password === login_password.value) {
-		window.location.replace('http://127.0.0.1:5500/display.html');
-	} else if (usernames.includes(lowercase_username) && password !== login_password.value) {
-		login_password.value = "";
-		alert('Incorrect Password Enterered');
-		return;
-	} else if (!usernames.includes(lowercase_username) && password === login_password.value) {
-		username.value = "";
-		alert('Incorrect Username Enterered');
-		return;
-	} else {
-		username.value = "";
-		login_password.value = "";
-		alert('Incorrect Username and Password Enterered');
-		return;
-	}
-}
-
-function newUserInfo() {
-	let fullname = document.getElementById('user-fullname');
-	let phone_number = document.getElementById('user-phone-number');
-	let user_image = document.getElementById('user-image');
-
-	let day = document.getElementById('day');
-	let month = document.getElementById('month');
-	let year = document.getElementById('year');
-
-	fullname = fullname.value;
-	phone_number = phone_number.value;
-	user_image = user_image.value;
-
-	let input_value_check = ["", null, 'undefined'];
-
-	if (input_value_check.includes(user_image)) {
-		user_image = './images/display-images/placeholder.jpg';
-	} else {
-		let image = document.getElementById('output');
-		user_image = image.src;
-	}
-
-	if (typeof fullname === 'string') {
-		if (typeof Number(phone_number) === 'number' && phone_number.charAt(0) === '0' && phone_number.length === 10) {
-			if (day.value.length, month.value.length === 2 && year.value.length === 4 && Number(day.value) <= 31 && Number(month.value) <= 12 && Number(year.value) < 2009) {
-				birthDay = [day.value, month.value, year.value];
-				if (birthDay.length > 0) {
-					for (let i = 0; i < birthDay.length; i++) {
-						if (typeof birthDay[i] === 'number' && birthDay[3] > 2008) {
-							birthDay = [];
-							break;
-						}
-					}
-
-					birth_date = `${birthDay[0]}/${birthDay[1]}/${birthDay[2]}`;
-					phone_number = String(phone_number);
-					addUserToDatabase(fullname, user_image, birth_date, phone_number);
-					birthDay = [];
-				}
-			} else {
-				alert('Check name input if you entered an incorrect value');
-				return;
-			}
-		} else {
-			alert('Check phone number input if you entered an incorrect value');
-			return;
-		}
-	} else {
-		alert('Check fullname input if you entered an incorrect value');
-		return;
-	}
-}
-
-function userInfo() {
-	fetch(`http://127.0.0.1:5000/view_yp_profiles/`, {
-		method: 'GET',
-		headers: { 'Content-Type': 'application/json' }
-	})
-		.then((response) => response.json())
-		.then((data) => {
-			let yp = data.yp_data;
-			let username;
-
-			if (yp.length === 0) {
-				alert('There is no data to view');
-				return;
-			} else {
-				for (i of yp) {
-					username = i['full_name'].toLowerCase().trim();
-					if (usernames.includes(username) === false) {
-						usernames.push(username);
-					}
-				}
-				userSignIn();
-			}
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-}
-
-function addUserToDatabase(fullName, userImage, birthDate, phoneNumber) {
-	let user_data = {
-		'full_name': fullName,
-		'profile_image': userImage,
-		'phone_number': phoneNumber,
-		'birthday': birthDate
-	};
-
-	fetch(`http://127.0.0.1:5000/new_user/`, {
-		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify(user_data)
-	})
-		.then((response) => response.json())
-		.then((data) => {
-			user_data = JSON.stringify(user_data);
-			if (data.status_code === 201) {
-				window.localStorage.setItem('user', JSON.stringify(user_data));
-				alert('successful registration');
-				return;
-			} else {
-				alert('unsuccessful registration');
-			}
-		})
-		.catch((error) => {
-			console.log(error);
-		});
 }
 
 createForms('signup-form');
