@@ -21,6 +21,22 @@ function pageRedirect(page_url) {
 	return;
 }
 
+function checkLocalStorageSpace(key, value) {
+	value = JSON.stringify(value);
+
+	window.localStorage.setItem(key, value);
+
+	let isFull = window.localStorage.getItem(key)
+
+	if (isFull) {
+		return;
+	} else {
+		console.log("Clearing localStorage");
+		localStorage.clear();
+		return false;
+	}
+}
+
 // FETCHES
 function getUserObject() {
 	fetch(`http://127.0.0.1:5000/view_yp_profiles/`, {
@@ -34,6 +50,7 @@ function getUserObject() {
 
 			for (const user of data.yp_data) {
 				const data_obj = {
+					"id": user["yp_id"],
 					"Full Name": user["full_name"],
 					"Profile Image": user["profile_image"],
 					"Birthday": user["birthday"],
@@ -46,7 +63,8 @@ function getUserObject() {
 
 			user_data["data"] = data_array;
 			user_data["usernames"] = usernames_array;
-			console.log(user_data);
+
+			checkLocalStorageSpace("user_data", user_data);
 		})
 		.catch((error) => {
 			console.log(error);

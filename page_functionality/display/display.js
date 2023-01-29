@@ -1,7 +1,8 @@
 window.onload = () => {
-	let users = [];
+	getUserObject();
+	users = JSON.parse(window.localStorage.getItem("user_data"));
+	createCardTemplate(users);
 	new searchNavigation();
-	userInfo();
 };
 
 class searchNavigation {
@@ -16,12 +17,14 @@ class searchNavigation {
 		this.modal_btn.onclick = function () {
 			if (modal.style.filter == "opacity(1)") {
 				modal.style = `
-				filter: opacity(0);
-				z-index: -1;`;
+					filter: opacity(0);
+					z-index: -1;
+				`;
 			} else {
 				modal.style = `
-				filter: opacity(1);
-				z-index: 985;`;
+					filter: opacity(1);
+					z-index: 985;
+				`;
 			}
 
 			const admin_form = `
@@ -37,7 +40,7 @@ class searchNavigation {
 
 			modal.innerHTML = admin_form;
 
-			const signin_btn = document.getElementById("signin-btn");
+			const signin_btn = document.getElementById("signin-btn"); JSON.parse(json)
 			document.getElementById("toggle-password").onclick = togglePassword();
 
 			signin_btn.addEventListener("click", adminSignIn);
@@ -45,38 +48,39 @@ class searchNavigation {
 
 		this.search_input.addEventListener("input", (e) => {
 			const value = e.target.value.toLowerCase();
-
-			users.forEach(user => {
-				let birthday = user["birthday"];
-
-				const isVisible = user["name"].toLowerCase().includes(value) || birthday.includes(value);
-				user["element"].classList.toggle("hide", !isVisible);
+			console.log(value);
+			users["data"].forEach(user => {
+				const isVisible = user["Full Name"].toLowerCase().includes(value) || user["Birthday"].includes(value);
 
 			});
 		});
 	}
 };
 
-function ypProfileCard(info) {
-	const card_template = document.querySelector("[data-user-template]");
-	const card_container = document.querySelector("#card-view");
+function createCardTemplate(users) {
+	const ypCardTemplate = document.querySelector("[data-user-template]");
+	const ypCardContainer = document.getElementById("card-view");
 
 	users = info.map(user => {
-		const card = card_template.content.cloneNode(true).children[0];
+		const card = ypCardTemplate.content.cloneNode(true).children[0];
 
 		card.id = user["yp_id"];
 
 		const body = card.querySelector("[data-body]");
 		const image = body.querySelector("[data-image]");
 		const name = body.querySelector("[data-name]");
-		const birthday = body.querySelector("[data-birthday]");
+		const age = body.querySelector("[data-age]");
+		const birthDay = body.querySelector("[data-birthday]");
+
+		const ypAge = getAge(user["birthday"]);
 
 		image.src = user["profile_image"];
 		name.textContent = user["full_name"];
-		birthday.textContent = user["birthday"];
+		age.textContent = ypAge;
+		birthDay.textContent = user["birthday"];
 
-		card_container.append(card);
+		ypCardContainer.append(card);
 
-		return { element: card, name: user["full_name"], birthday: user["birthday"] };
+		return { element: card, name: user["full_name"], age: ypAge, birthday: user["birthday"] };
 	});
 }
