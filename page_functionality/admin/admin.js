@@ -1,66 +1,78 @@
-function createAdminTable(yp_information, heading_names) {
+window.onload = () => {
+	getUserObject();
+	let database = createAdminTable(JSON.parse(window.localStorage.getItem("user_data")));
+	rowControls(database);
+};
 
-	if (yp_information == undefined || heading_names == undefined)
-		return { "created": false };
+function createAdminTable(user_info) {
+	if (user_info == undefined)
+		return false;
 
-	const heading_columns = document.getElementById("table-headings");
-	const information_columns = document.getElementById("table-information");
-
-	for (const heading_name of heading_names) {
-		if (heading_name !== "profile_image" && heading_name !== "yp_id") {
-			const heading_column_structure = `<div class="table-heading">${heading_name}</div>`;
-
-			heading_columns.innerHTML += heading_column_structure;
-		}
+	createColumnHeadings(Object.keys(user_info['data'][0]));
+	for (const user_data of user_info['data']) {
+		createUserRows(user_data);
 	}
 
-	for (const yp_person of yp_information) {
-		const yp_person_row = `<div id="table-row-${yp_person["yp_id"]}" class="table-row"></div>`;
-
-		information_columns.innerHTML += yp_person_row;
-
-		const yp_person_row_column = document.getElementById(`table-row-${yp_person["yp_id"]}`);
-
-		for (const key of heading_names) {
-			if (key !== "profile_image" && key !== "yp_id") {
-				const yp_person_columns = `<div class="table-column">${yp_person[key]}</div>`;
-
-				yp_person_row_column.innerHTML += yp_person_columns;
-			}
-		}
-	}
-
-	return { "created": true, "info": yp_information };
+	return user_info["data"];
 }
 
+function createColumnHeadings(column_headings) {
+	const column_heading_container = document.getElementById("table-column-headings");
 
-function rowControls(yp_information) {
-	let row_id = 1;
+	for (const heading of column_headings) {
+		if (heading !== "id") {
+			const column_heading = `
+				<div class="table-column-heading"> ${heading} </div>
+			`;
+
+			column_heading_container.innerHTML += column_heading;
+		}
+	}
+}
+
+function createUserRows(user_data) {
+	const column_container = document.getElementById("table-columns");
+
+	column_container.innerHTML += `<div id="table-row-${user_data["id"]}" class="table-row"></div>`;
+	const table_row = document.getElementById(`table-row-${user_data["id"]}`);
+
+	for (const key in user_data) {
+		if (key !== "id" && key !== "Profile Image") {
+			const table_column = `<div class="table-column">${user_data[key]}</div>`;
+			table_row.innerHTML += table_column;
+		} else if (key !== "id" && key === "Profile Image") {
+			const table_column = `<img src="${user_data[key]}" class="table-column image">`;
+			table_row.innerHTML += table_column;
+		}
+	}
+
+}
+
+function rowControls(data) {
+	if (data === false) return;
 
 	let data_rows = document.getElementsByClassName("table-row");
-	for (const row of data_rows) {
-		row.addEventListener("click", () => {
-			row_id = parseInt(row.id.split("-")[2]);
-			getUser(row_id);
-		})
-	};
-
 	getUser = (selected_id) => {
-		for (let user_info of yp_information) {
-			if (user_info["yp_id"] === selected_id) {
+		for (const user_info of data) {
+			if (user_info["id"] === selected_id) {
 				highlightRow(data_rows, selected_id)
 				adminControls(user_info);
 			}
 		}
 	}
+
+	for (const row of data_rows) {
+		row.addEventListener("click", () => {
+			getUser(parseInt(row.id.split("-")[2]));
+		})
+	};
 }
 
 function highlightRow(user_rows, id) {
-	for (const user_row of user_rows) {
-		if (user_row && Number(user_row.id.split("-")[2]) === id && user_row.className.split(" ")[1] !== "highlighted") {
-			user_row.className += " highlighted";
-		} else {
-			user_row.className = "table-row";
+	if (user_rows) {
+		for (const user_row of user_rows) {
+			const isHighlighted = Number(user_row.id.split("-")[2]) === id
+			user_row.classList.toggle("highlighted", isHighlighted);
 		}
 	}
 }
@@ -77,10 +89,10 @@ function adminControls(userInfo) {
 		<div class="popup-background">
 			<div id="update_popup">
 				<div class="user-info">
-					<img id="popup-img" src="${userInfo['profile_image']}" width="100%"/>	
-					<input value="${userInfo['full_name']}" id="name-input"/>
+					<img id="popup-img" src="${userInfo['Profile Image']}" width="100%"/>	
+					<input value="${userInfo['Full Name']}" id="name-input"/>
 					<input disabled="true" value="${age}" id="age-input"/>
-					<input value="${userInfo['birthday']}" id="birthday-input"/>
+					<input value="${userInfo['Birthday']}" id="birthday-input"/>
 				</div>
 				<button id="popup-update-btn">Update</button>
 			</div>
