@@ -88,6 +88,13 @@ input:focus::placeholder {
 	color: white;
 }
 
+/* Icons */
+.site-icons {
+	color: white;
+	font-size: 20px;
+	cursor: pointer;
+}
+
 /* Preloader CSS */
 #preloader {
 	display: flex;

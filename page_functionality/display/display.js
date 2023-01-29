@@ -9,11 +9,13 @@ class searchNavigation {
 	search_input;
 	modal_btn;
 	toggle_password;
+	exit_btn;
 
 	constructor() {
 		const modal = document.getElementById("admin-modal");
 		this.search_input = document.getElementById("search-bar");
-		this.modal_btn = document.getElementById("admin-btn");
+		this.modal_btn = document.getElementById("admin-login-btn");
+		this.exit_btn = document.getElementById("home-button");
 
 		this.modal_btn.onclick = () => {
 			if (modal.style.filter == "opacity(1)") {
@@ -56,6 +58,8 @@ class searchNavigation {
 				card["element"].classList.toggle("hide", !isVisible);
 			}
 		});
+
+		this.exit_btn.onclick = () => { previousPage('index') };
 	}
 };
 

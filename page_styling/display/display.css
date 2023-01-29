@@ -4,20 +4,7 @@ body {
 	background-size: cover;
 }
 
-/* Admin Login */
-.admin-view {
-	position: absolute;
-	right: 50px;
-	top: 25px;
-	cursor: pointer;
-	height: 50px;
-	width: 50px;
-	background-image: url(../../global_use/global_images/admin.png);
-	background-size: cover;
-	border-radius: 100%;
-	z-index: 990;
-}
-
+/* Admin Login Form */
 #admin-modal {
 	display: flex;
 	justify-content: center;
@@ -37,44 +24,19 @@ body {
 	transition-timing-function: ease-in-out;
 }
 
-#search-area {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	background-color: rgba(0, 0, 0, 0.2);
-	padding: 20px;
+#admin-login-btn {
+	position: absolute;
+	right: 5%;
+	top: 5%;
+	cursor: pointer;
+	height: 35px;
+	width: 35px;
+	background-image: url(../../global_use/global_images/admin.png);
+	background-size: cover;
+	border-radius: 100%;
+	z-index: 990;
 }
 
-#search-bar {
-	background-color: rgba(255, 255, 255, 0.2);
-	font-size: 18px;
-	color: white;
-	padding: 10px;
-	width: 420px;
-	border: none;
-	border-bottom: 2px solid rgb(0, 0, 0, 0.5);
-	transition: all 0.5s;
-	transition-timing-function: ease-in-out;
-}
-
-#search-bar:focus {
-	outline: none;
-	border-bottom: 2px solid white;
-}
-
-#search-bar:focus::placeholder {
-	color: white;
-}
-
-#view-content {
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	width: 100%;
-}
-
-/* Form */
 #admin-form {
 	display: flex;
 	align-items: center;
@@ -85,6 +47,34 @@ body {
 #admin-submit-btn {
 	width: 420px;
 	margin-inline: 0px;
+}
+
+
+/* Search Area */
+#search-area {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.4);
+	padding: 20px;
+	width: 100%;
+}
+
+#search-bar {
+	width: 60%;
+}
+
+#home-button {
+	margin-right: 50px;
+}
+
+/* User Data View */
+#view-content {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	width: 100%;
 }
 
 #card-view {
@@ -103,6 +93,7 @@ body {
 	height: 550px;
 	background-color: rgba(0, 0, 0, 0.3);
 	border: 2px solid rgba(255, 255, 255, 0.3);
+	border-radius: 10px;
 	transform: scale(0.9);
 	transition: all 1s;
 	transition-timing-function: ease-in-out;
