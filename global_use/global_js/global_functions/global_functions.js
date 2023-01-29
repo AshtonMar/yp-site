@@ -179,30 +179,30 @@ function signIn(user) {
 
 	const login_credentials = {
 		"admin": {
-			"username": "YP_Admin_User",
-			"password": "vMvwST6y75cTRk"
+			"username": username_value === "YP_Admin_User",
+			"password": password_value === "vMvwST6y75cTRk"
 		},
 		"user": {
 			"username": user_data["usernames"].includes(username_value),
-			"password": "DEw0DPc6u7_2"
+			"password": password_value === "DEw0DPc6u7_2"
 		}
 	};
 
-	if (login_credentials[user]["username"] && password_value === login_credentials[user]["password"]) {
+	if (login_credentials[user]["username"] && login_credentials[user]["password"]) {
 		url = 'http://127.0.0.1:5500/display.html';
 		if (user === "admin")
 			url = 'http://127.0.0.1:5500/admin.html';
 
 		setTimeout(() => pageRedirect(url), 500);
-	} else if (login_credentials[user]["username"] && password_value !== login_credentials[user]["password"]) {
+	} else if (login_credentials[user]["username"] && !login_credentials[user]["password"]) {
 		password.value = "";
 		alert("The password is incorrect");
 		return;
-	} else if (!login_credentials[user]["username"] && password_value === login_credentials[user]["password"]) {
+	} else if (!login_credentials[user]["username"] && login_credentials[user]["password"]) {
 		username.value = "";
 		alert("The username is incorrect");
 		return;
-	} else if (!login_credentials[user]["username"] && password_value !== login_credentials[user]["password"]) {
+	} else if (!login_credentials[user]["username"] && !login_credentials[user]["password"]) {
 		username.value = "";
 		password.value = "";
 		alert("The login info you entered is incorrect");

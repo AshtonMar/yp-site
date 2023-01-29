@@ -1,20 +1,21 @@
 window.onload = () => {
+	let user_values = [];
 	getUserObject();
-	users = JSON.parse(window.localStorage.getItem("user_data"));
-	createCardTemplate(users);
+	createCardTemplate(JSON.parse(window.localStorage.getItem("user_data")));
 	new searchNavigation();
 };
 
 class searchNavigation {
 	search_input;
 	modal_btn;
+	toggle_password;
 
 	constructor() {
 		const modal = document.getElementById("admin-modal");
 		this.search_input = document.getElementById("search-bar");
 		this.modal_btn = document.getElementById("admin-btn");
 
-		this.modal_btn.onclick = function () {
+		this.modal_btn.onclick = () => {
 			if (modal.style.filter == "opacity(1)") {
 				modal.style = `
 					filter: opacity(0);
@@ -40,47 +41,42 @@ class searchNavigation {
 
 			modal.innerHTML = admin_form;
 
-			const signin_btn = document.getElementById("signin-btn"); JSON.parse(json)
-			document.getElementById("toggle-password").onclick = togglePassword();
+			const signin_form = document.getElementById('signin-form');
+			signin_form.addEventListener('submit', () => signIn('admin'));
 
-			signin_btn.addEventListener("click", adminSignIn);
+			this.toggle_password = document.getElementById("toggle-password");
+			this.toggle_password.onclick = togglePassword();
 		};
 
 		this.search_input.addEventListener("input", (e) => {
 			const value = e.target.value.toLowerCase();
-			console.log(value);
-			users["data"].forEach(user => {
-				const isVisible = user["Full Name"].toLowerCase().includes(value) || user["Birthday"].includes(value);
 
-			});
+			for (const card of user_values) {
+				const isVisible = card["name"].toLowerCase().includes(value) || card["birthday"].includes(value);
+				card["element"].classList.toggle("hide", !isVisible);
+			}
 		});
 	}
 };
 
 function createCardTemplate(users) {
-	const ypCardTemplate = document.querySelector("[data-user-template]");
-	const ypCardContainer = document.getElementById("card-view");
+	const card_template = document.querySelector("[data-user-template]");
+	const card_container = document.getElementById("card-view");
 
-	users = info.map(user => {
-		const card = ypCardTemplate.content.cloneNode(true).children[0];
-
-		card.id = user["yp_id"];
-
+	user_values = users["data"].map(user => {
+		const card = card_template.content.cloneNode(true).children[0];
 		const body = card.querySelector("[data-body]");
 		const image = body.querySelector("[data-image]");
 		const name = body.querySelector("[data-name]");
-		const age = body.querySelector("[data-age]");
-		const birthDay = body.querySelector("[data-birthday]");
+		const birthday = body.querySelector("[data-birthday]");
 
-		const ypAge = getAge(user["birthday"]);
+		card.id = user["id"];
+		image.src = user["Profile Image"];
+		name.textContent = user["Full Name"];
+		birthday.textContent = user["Birthday"];
 
-		image.src = user["profile_image"];
-		name.textContent = user["full_name"];
-		age.textContent = ypAge;
-		birthDay.textContent = user["birthday"];
+		card_container.append(card);
 
-		ypCardContainer.append(card);
-
-		return { element: card, name: user["full_name"], age: ypAge, birthday: user["birthday"] };
+		return { element: card, name: user["Full Name"], birthday: user["Birthday"] };
 	});
 }
