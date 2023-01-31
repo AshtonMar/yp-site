@@ -112,13 +112,8 @@ function adminControls(user_info) {
 
 	const body = document.getElementsByTagName("body")[0];
 	update_btn.addEventListener('click', () => {
-		body.innerHTML += popup_templates["update_popup"];
-		const popup_background = document.getElementById("popup-background");
+		body.innerHTML = popup_templates["update_popup"];
 		const update = document.getElementById("popup-update-btn");
-
-		popup_background.addEventListener('click', () => {
-			window.location.reload();
-		})
 
 		update.addEventListener("click", () => {
 			const yp_name = document.getElementById("name-input").value;
@@ -140,7 +135,7 @@ function adminControls(user_info) {
 	})
 
 	delete_btn.addEventListener('click', () => {
-		body.innerHTML += popup_templates["confirmation_popup"];
+		body.innerHTML = popup_templates["confirmation_popup"];
 
 		const confirmation_text = document.getElementById('confirmation-text');
 		const confirmButtons = document.querySelectorAll('.confirmation_buttons')
