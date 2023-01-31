@@ -87,7 +87,7 @@ function adminControls(user_info) {
 	const age = getAge(user_info['Birthday']);
 	const popup_templates = {
 		update_popup: `
-		<div class="popup-background">
+		<div id="popup-background">
 			<div id="update_popup">
 				<div class="user-info">
 					<img id="popup-img" src="${user_info['Profile Image']}" width="100%"/>	
@@ -99,7 +99,7 @@ function adminControls(user_info) {
 			</div>
 		</div>`,
 		confirmation_popup: `
-		<div class="popup-background">
+		<div id="popup-background">
 			<div id="confirmation_popup">
 				<div id="confirmation-text"></div>
 				<div class="confirmation-buttons">
@@ -113,7 +113,12 @@ function adminControls(user_info) {
 	const body = document.getElementsByTagName("body")[0];
 	update_btn.addEventListener('click', () => {
 		body.innerHTML += popup_templates["update_popup"];
+		const popup_background = document.getElementById("popup-background");
 		const update = document.getElementById("popup-update-btn");
+
+		popup_background.addEventListener('click', () => {
+			window.location.reload();
+		})
 
 		update.addEventListener("click", () => {
 			const yp_name = document.getElementById("name-input").value;
@@ -130,7 +135,7 @@ function adminControls(user_info) {
 				updated_values['birthday'] = user_values[1];
 			}
 
-			updateUserData(user_info["id"], updated_values)
+			updateUserData(user_info["id"], updated_values);
 		})
 	})
 
@@ -155,4 +160,5 @@ function adminControls(user_info) {
 			})
 		}
 	})
+
 }
