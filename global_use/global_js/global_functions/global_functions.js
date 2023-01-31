@@ -65,9 +65,11 @@ function getUserObject() {
 			user_data["usernames"] = usernames_array;
 
 			checkLocalStorageSpace("user_data", user_data);
+			return true;
 		})
 		.catch((error) => {
 			console.log(error);
+			return false;
 		});
 }
 
@@ -108,6 +110,7 @@ function updateUserData(id, new_values) {
 			.then((response) => response.json())
 			.then(data => {
 				console.log("Success", data);
+				getUserObject();
 				return true;
 			})
 			.catch((error) => {
@@ -126,6 +129,7 @@ function deleteUserData(id) {
 		.then((response) => response.json())
 		.then(data => {
 			console.log("Success", data);
+			getUserObject();
 			return true;
 		})
 		.catch((error) => {
@@ -272,3 +276,8 @@ function getAge(dateString) {
 	}
 	return age;
 }
+
+// Closing tab
+// window.addEventListener('close', () => {
+// 	localStorage.clear();
+// });

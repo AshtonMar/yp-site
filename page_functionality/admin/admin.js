@@ -1,3 +1,5 @@
+const exit_btn = document.getElementById("exit-btn");
+exit_btn.onclick = () => { previousPage('display') };
 window.onload = () => {
 	getUserObject();
 	let database = createAdminTable(JSON.parse(window.localStorage.getItem("user_data")));
@@ -72,27 +74,26 @@ function highlightRow(user_rows, id) {
 	if (user_rows) {
 		for (const user_row of user_rows) {
 			const isHighlighted = Number(user_row.id.split("-")[2]) === id
+
 			user_row.classList.toggle("highlighted", isHighlighted);
 		}
 	}
 }
 
-function adminControls(userInfo) {
+function adminControls(user_info) {
 	const update_btn = document.getElementById("update-btn");
 	const delete_btn = document.getElementById("delete-btn");
-	const exit_btn = document.getElementById("exit-button");
 
-	let age = getAge(userInfo['birthday']);
-
+	const age = getAge(user_info['Birthday']);
 	const popup_templates = {
 		update_popup: `
 		<div class="popup-background">
 			<div id="update_popup">
 				<div class="user-info">
-					<img id="popup-img" src="${userInfo['Profile Image']}" width="100%"/>	
-					<input value="${userInfo['Full Name']}" id="name-input"/>
+					<img id="popup-img" src="${user_info['Profile Image']}" width="100%"/>	
+					<input value="${user_info['Full Name']}" id="name-input"/>
 					<input disabled="true" value="${age}" id="age-input"/>
-					<input value="${userInfo['Birthday']}" id="birthday-input"/>
+					<input value="${user_info['Birthday']}" id="birthday-input"/>
 				</div>
 				<button id="popup-update-btn">Update</button>
 			</div>
@@ -121,57 +122,37 @@ function adminControls(userInfo) {
 			let user_values = [yp_name, yp_birthday];
 			let updated_values = {};
 
-			if (user_values[0] !== userInfo['full_name']) {
+			if (user_values[0] !== user_info['Full Name']) {
 				updated_values['full_name'] = user_values[0];
 			}
 
-			if (user_values[1] !== userInfo['birthday']) {
+			if (user_values[1] !== user_info['Birthday']) {
 				updated_values['birthday'] = user_values[1];
 			}
 
-			if (updateUserData(userInfo["yp_id"], updated_values))
-				console.log("Success");
-			else
-				console.log("Failure");
+			updateUserData(user_info["id"], updated_values)
 		})
 	})
 
 	delete_btn.addEventListener('click', () => {
 		body.innerHTML += popup_templates["confirmation_popup"];
 
-		let confirmation_text = document.getElementById('confirmation-text');
-		let confirmButtons = document.querySelectorAll('.confirmation_buttons')
+		const confirmation_text = document.getElementById('confirmation-text');
+		const confirmButtons = document.querySelectorAll('.confirmation_buttons')
 
-		confirmation_text.innerHTML = `Are you sure you want to delete ${userInfo['full_name']}'s information?`
-
-		for (const btn of confirmButtons) {
-			btn.addEventListener('click', () => {
-				if (btn.id === 'yes') {
-					deleteUserData(userInfo["yp_id"]);
-				} else {
-					console.log("no");
-				}
-			})
-		}
-	})
-
-	exit_btn.addEventListener('click', () => {
-		body.innerHTML += popup_templates["confirmation_popup"];
-
-		let confirmation_text = document.getElementById('confirmation-text');
-		let confirmButtons = document.querySelectorAll('.confirmation_buttons')
-
-		confirmation_text.innerHTML = `Are you sure you want to exit?`
+		confirmation_text.innerHTML = `
+			Are you sure you want to delete ${user_info['Full Name']}'s Details?
+		`
 
 		for (const btn of confirmButtons) {
 			btn.addEventListener('click', () => {
 				if (btn.id === 'yes') {
-					exitAdmin();
+					deleteUserData(user_info["id"]);
 				} else {
 					console.log("no");
+					window.location.reload();
 				}
 			})
 		}
 	})
-
 }

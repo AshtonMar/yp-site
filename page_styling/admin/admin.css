@@ -1,7 +1,13 @@
 body {
-	display: block;
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
 	background-image: url(../../global_use/global_images/background.png);
 	background-size: cover;
+}
+
+#admin-container {
+	width: 100%;
 }
 
 /* Admin Controls */
@@ -13,11 +19,13 @@ body {
 	background-color: rgba(0, 0, 0, 0.8);
 	padding-block: 50px;
 	width: 100%;
+	height: 10vh;
 }
 
 /* Table Columns */
 #database-view {
-	height: 100vh;
+	height: 100%;
+	width: 100%;
 }
 
 #table-column-headings {
@@ -83,6 +91,11 @@ body {
 	object-fit: cover;
 }
 
+.table-row.highlighted {
+	background-color: red;
+}
+
+/* Popup */
 .popup-background {
 	display: flex;
 	justify-content: center;
@@ -91,21 +104,12 @@ body {
 	height: 100vh;
 	width: 100%;
 	z-index: 999;
-	background: linear-gradient(rgb(0, 0, 0, 0.5), rgb(0, 0, 0, 0.5));
-}
-
-.table-row.highlighted {
-	background-color: red;
-}
-
-.table-row.not-highlighted {
-	background-color: blue;
+	background: linear-gradient(rgb(0, 0, 0, 0.8), rgb(0, 0, 0, 0.8));
 }
 
 #update_popup,
 #confirmation_popup {
-	border-radius: 5px;
-	background-color: white;
+	border-radius: 10px;
 	padding-inline: 115px;
 }
 
@@ -123,13 +127,15 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	background-color: black;
+	border: 1px solid white;
 	height: 25vh;
 	width: 75vh;
 }
 
 #confirmation-text {
 	font-size: 20px;
-	color: black;
+	color: white;
 	margin-block: 10px;
 	width: 100%;
 }
@@ -142,37 +148,11 @@ body {
 }
 
 .confirmation-buttons>button {
-	padding: 10px;
 	width: 200px;
 }
 
-.user-info {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	width: 100%;
-}
-
-.user-info>input {
-	width: 100%;
-	margin-block: 20px;
-	padding: 5px;
-}
-
 .user-info>img {
+	object-fit: cover;
 	width: 100%;
-	height: 200px;
-}
-
-#admin-table {
-	height: 100%;
-	width: 100%;
-}
-
-.highlighted_row {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	width: 100%;
-	background-color: red;
+	height: 300px;
 }
