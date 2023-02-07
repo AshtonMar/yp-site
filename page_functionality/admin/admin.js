@@ -116,8 +116,14 @@ function adminControls(user_info) {
 	update_btn.addEventListener('click', () => {
 		body.innerHTML = popup_templates["update_popup"];
 		const update = document.getElementById("popup-update-btn");
+		const exit_modal = document.getElementById("admin-login-btn");
+
+		exit_modal.addEventListener("click", () => {
+			window.location.reload();
+		})
 
 		update.addEventListener("click", () => {
+			console.log("hey");
 			const yp_name = document.getElementById("name-input").value;
 			const yp_birthday = document.getElementById("birthday-input").value;
 
@@ -132,7 +138,14 @@ function adminControls(user_info) {
 				updated_values['birthday'] = user_values[1];
 			}
 
-			updateUserData(user_info["id"], updated_values);
+			if (Object.keys(updated_values).length) {
+				alert("Updated user");
+				updateUserData(user_info["id"], updated_values);
+				return;
+			} else {
+				alert("No values were changed");
+				return;
+			}
 		})
 	})
 

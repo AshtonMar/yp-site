@@ -105,8 +105,8 @@ input:focus::placeholder {
 	right: 5%;
 	top: 5%;
 	cursor: pointer;
-	height: 35px;
-	width: 35px;
+	height: 50px;
+	width: 50px;
 	background-size: cover;
 	border-radius: 100%;
 	z-index: 990;
