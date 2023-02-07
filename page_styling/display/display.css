@@ -1,0 +1,116 @@
+body {
+	display: block;
+	background-image: url(../../global_use/global_images/background.png);
+	background-size: cover;
+}
+
+/* Admin Login Form */
+#admin-modal {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+	flex-direction: column;
+	bottom: 0;
+	top: 0;
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.8);
+	margin: auto;
+	padding: 20px;
+	z-index: -1;
+	filter: opacity(0);
+	transition: all 0.5s;
+	transition-timing-function: ease-in-out;
+}
+
+#admin-form {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	padding: 50px;
+}
+
+#admin-submit-btn {
+	width: 420px;
+	margin-inline: 0px;
+}
+
+
+/* Search Area */
+#search-area {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.4);
+	padding: 20px;
+	width: 100%;
+}
+
+#search-bar {
+	width: 60%;
+}
+
+#home-button {
+	margin-right: 50px;
+}
+
+/* User Data View */
+#view-content {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	width: 100%;
+}
+
+#card-view {
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.info-card {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 400px;
+	margin-block: 10px;
+	height: 550px;
+	background-color: rgba(0, 0, 0, 0.3);
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	border-radius: 10px;
+	transform: scale(0.9);
+	transition: all 1s;
+	transition-timing-function: ease-in-out;
+}
+
+.info-card:hover {
+	transform: scale(1);
+	background-color: rgba(0, 0, 0, 0.5);
+	border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.person-image {
+	object-fit: cover;
+	height: 350px;
+	width: 100%;
+}
+
+.persons-info {
+	overflow-y: hidden;
+	padding: 20px;
+	text-align: center;
+	cursor: default;
+}
+
+.persons-info p {
+	color: white;
+	font-size: 20px;
+	margin-block: 10px;
+}
+
+.hide {
+	display: none;
+}

@@ -1,0 +1,28 @@
+#user-forms {
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	width: 420px;
+}
+
+#signin-btn,
+#signup-btn {
+	width: 45%;
+}
+
+/* Form */
+#form-display {
+	display: flex;
+	justify-content: center;
+	width: 440px;
+}
+
+#admin-submit-btn {
+	width: 420px;
+	margin-inline: 0px;
+}
+
+#user-submit-btn {
+	width: 420px;
+	margin-inline: 0px;
+}

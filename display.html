@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head id="headtag">
 	<meta charset="UTF-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="shortcut icon" type="image/png" href="./images/yp-image.png" />
-	<link rel="stylesheet" href="./display/display-style/admin.css">
-	<link rel="stylesheet" href="./display/display-style/display-all.css">
-	<link rel="stylesheet" href="./display/display-style/card.css">
-	<link rel="stylesheet" href="./preloader/preloader.css">
-	<title>Forest Village Young People Website</title>
-	<script src="./preloader/preloader.js" defer></script>
-	<script src="./display/display-script/display-all.js" defer></script>
+	<script src="https://kit.fontawesome.com/94f7ac4cd5.js" crossorigin="anonymous"></script>
+	<link rel="shortcut icon" type="image/png" href="./global_use/global_images/light_yp_icon.png" />
+	<link rel="stylesheet" href="./global_use/global_css/components.css">
+	<link rel="stylesheet" href="./page_styling/display/display.css">
+	<title>Forest Village YP Site</title>
 </head>
 
 <body>
@@ -23,13 +20,14 @@
 			</div>
 		</div>
 	</div>
-	<div id="admin-btn" class="admin-view">
+	<div id="admin-login-btn">
 	</div>
 	<div id="admin-modal">
 	</div>
 	<section id="view-content">
 		<div id="search-area">
-			<input id="search-bar" type="text" placeholder="Search.." data-search>
+			<i id="home-button" class="site-icons fas fa-solid fa-door-open"></i>
+			<input id="search-bar" type="text" placeholder="Search..">
 		</div>
 		<section id="card-view">
 		</section>
@@ -41,12 +39,13 @@
 				<img class="person-image" src="" alt="" data-image>
 				<div class="persons-info">
 					<p class="name" data-name></p>
-					<p class="age" data-age></p>
 					<p class="birthday" data-birthday></p>
 				</div>
 			</div>
 		</div>
 	</template>
 </body>
+<script src="./global_use/global_js/global_functions/global_functions.js"></script>
+<script src="./page_functionality/display/display.js"></script>
 
 </html>
