@@ -88,6 +88,8 @@ function adminControls(user_info) {
 	const popup_templates = {
 		update_popup: `
 		<div id="popup-background">
+			<div id="admin-login-btn" style="background-image: url(../../global_use/global_images/light_yp_icon.png)">
+			</div>
 			<div id="update_popup">
 				<div class="user-info">
 					<img id="popup-img" src="${user_info['Profile Image']}" width="100%"/>	

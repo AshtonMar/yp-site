@@ -24,19 +24,6 @@ body {
 	transition-timing-function: ease-in-out;
 }
 
-#admin-login-btn {
-	position: absolute;
-	right: 5%;
-	top: 5%;
-	cursor: pointer;
-	height: 35px;
-	width: 35px;
-	background-image: url(../../global_use/global_images/admin.png);
-	background-size: cover;
-	border-radius: 100%;
-	z-index: 990;
-}
-
 #admin-form {
 	display: flex;
 	align-items: center;

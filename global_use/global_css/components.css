@@ -100,6 +100,18 @@ input:focus::placeholder {
 	cursor: pointer;
 }
 
+#admin-login-btn {
+	position: absolute;
+	right: 5%;
+	top: 5%;
+	cursor: pointer;
+	height: 35px;
+	width: 35px;
+	background-size: cover;
+	border-radius: 100%;
+	z-index: 990;
+}
+
 /* Preloader CSS */
 #preloader {
 	display: flex;
